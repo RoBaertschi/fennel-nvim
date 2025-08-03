@@ -58,7 +58,7 @@
 (vim.keymap.set "n" "<leader>b" "<ESC>:OverseerRestartLast<CR>" { :desc "Overseer Run Last" })
 
 (local vks vim.keymap.set)
-(vks "n" "<leader>cs" (lambda [] (vim.cmd (.. "source " (..
+(vks "n" "<leader>cs" (lambda [] (set package.loaded nil) (vim.cmd (.. "source " (..
                                    (vim.fn.stdpath "config") "/init.lua")))) { :desc "[C]onfig [S]ource" })
 
 nil

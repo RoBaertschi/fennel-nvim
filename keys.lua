@@ -46,6 +46,7 @@ vim.keymap.set("n", "<leader>orl", "<ESC>:OverseerRestartLast<CR>", {desc = "[O]
 vim.keymap.set("n", "<leader>b", "<ESC>:OverseerRestartLast<CR>", {desc = "Overseer Run Last"})
 local vks = vim.keymap.set
 local function _8_()
+  package.loaded = nil
   return vim.cmd(("source " .. (vim.fn.stdpath("config") .. "/init.lua")))
 end
 vks("n", "<leader>cs", _8_, {desc = "[C]onfig [S]ource"})

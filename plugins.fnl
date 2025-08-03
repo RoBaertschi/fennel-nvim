@@ -50,12 +50,15 @@
 (add-plugin :tokyonight "https://github.com/folke/tokyonight.nvim.git")
 (add-plugin :nvim-treesitter "https://github.com/nvim-treesitter/nvim-treesitter" :main)
 (add-plugin :which-key "https://github.com/folke/which-key.nvim")
+(add-plugin :mason "https://github.com/mason-org/mason.nvim")
+(add-plugin :lsp-config "https://github.com/neovim/nvim-lspconfig")
 
 ; telescope
 (add-plugin :plenary "https://github.com/nvim-lua/plenary.nvim")
 (add-plugin :nvim-web-devicons "https://github.com/nvim-tree/nvim-web-devicons")
 (add-plugin :telescope-ui-select "https://github.com/nvim-telescope/telescope-ui-select.nvim")
 (add-plugin :telescope "https://github.com/nvim-telescope/telescope.nvim")
+(add-plugin :mini "https://github.com/echasnovski/mini.nvim")
 
 (vim.cmd "packl!")
 
@@ -103,7 +106,7 @@
                             )
 
                     ]
-                (if ok (setup)
+                (if ok (do (setup))
                     (let [a (require :nvim-treesitter.async)]
                       (a.arun
                         (lambda []
@@ -117,7 +120,7 @@
                             )))
                       )
                     )
-                )
+                ) nil
               )
   })
 
@@ -140,4 +143,14 @@
 
 (telescope.load_extension :ui-select)
 
+; Mason
+(local mason (require :mason))
+(mason.setup {})
+
+; mini
+((. (require :mini.ai) :setup) { :n_lines 500 })
+((. (require :mini.ai) :setup) {})
+(local statusline (require :mini.statusline))
+(statusline.setup { :use_icons true })
+(tset statusline :section_location (lambda [] "%2l:%-2v"))
 nil

@@ -128,4 +128,5 @@ l
 
 (require "plugins")
 (require "keys")
+(require "lsp")
 nil

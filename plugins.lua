@@ -68,10 +68,13 @@ end
 add_plugin("tokyonight", "https://github.com/folke/tokyonight.nvim.git")
 add_plugin("nvim-treesitter", "https://github.com/nvim-treesitter/nvim-treesitter", "main")
 add_plugin("which-key", "https://github.com/folke/which-key.nvim")
+add_plugin("mason", "https://github.com/mason-org/mason.nvim")
+add_plugin("lsp-config", "https://github.com/neovim/nvim-lspconfig")
 add_plugin("plenary", "https://github.com/nvim-lua/plenary.nvim")
 add_plugin("nvim-web-devicons", "https://github.com/nvim-tree/nvim-web-devicons")
 add_plugin("telescope-ui-select", "https://github.com/nvim-telescope/telescope-ui-select.nvim")
 add_plugin("telescope", "https://github.com/nvim-telescope/telescope.nvim")
+add_plugin("mini", "https://github.com/echasnovski/mini.nvim")
 vim.cmd("packl!")
 vim.cmd("colorscheme tokyonight-night")
 local nvim_treesitter = require("nvim-treesitter")
@@ -98,35 +101,38 @@ end
 nvim_treesitter.install(install)
 local group = vim.api.nvim_create_augroup("vimrc-treesitter", {clear = true})
 local function _12_(args)
-  _G.assert((nil ~= args), "Missing argument args on C:\\Users\\Robin\\AppData\\Local\\nvim\\plugins.fnl:91")
-  local ok = pcall(vim.treesitter.start, args.buf)
-  local setup
-  local function _13_()
-    vim.bo["indentexpr"] = "v:lua.require('nvim-treesitter').indentexpr()"
-    vim.wo["foldtext"] = "v:lua.require('nvim-treesitter').foldtext()"
-    vim.wo["foldmethod"] = "expr"
-    vim.wo["foldexpr"] = "v:lua.require('nvim-treesitter').foldexpr()"
-    vim.wo["foldlevel"] = 99
-    vim.opt["foldlevelstart"] = -1
-    vim.opt["foldnestmax"] = 99
-    return nil
-  end
-  setup = _13_
-  if ok then
-    return setup()
-  else
-    local a = require("nvim-treesitter.async")
-    local function _14_()
-      local installing = require("nvim-treesitter.install").install(vim.treesitter.language.get_lang(args.match))
-      if pcall(a.await, installing) then
-        vim.treesitter.start(args.buf)
-        return setup()
-      else
-        return nil
-      end
+  _G.assert((nil ~= args), "Missing argument args on C:\\Users\\Robin\\AppData\\Local\\nvim\\plugins.fnl:94")
+  do
+    local ok = pcall(vim.treesitter.start, args.buf)
+    local setup
+    local function _13_()
+      vim.bo["indentexpr"] = "v:lua.require('nvim-treesitter').indentexpr()"
+      vim.wo["foldtext"] = "v:lua.require('nvim-treesitter').foldtext()"
+      vim.wo["foldmethod"] = "expr"
+      vim.wo["foldexpr"] = "v:lua.require('nvim-treesitter').foldexpr()"
+      vim.wo["foldlevel"] = 99
+      vim.opt["foldlevelstart"] = -1
+      vim.opt["foldnestmax"] = 99
+      return nil
     end
-    return a.arun(_14_)
+    setup = _13_
+    if ok then
+      setup()
+    else
+      local a = require("nvim-treesitter.async")
+      local function _14_()
+        local installing = require("nvim-treesitter.install").install(vim.treesitter.language.get_lang(args.match))
+        if pcall(a.await, installing) then
+          vim.treesitter.start(args.buf)
+          return setup()
+        else
+          return nil
+        end
+      end
+      a.arun(_14_)
+    end
   end
+  return nil
 end
 vim.api.nvim_create_autocmd("FileType", {group = group, callback = _12_})
 local which_key = require("which-key")
@@ -138,4 +144,14 @@ vim.keymap.set("n", "<leader>?", _17_)
 local telescope = require("telescope")
 telescope.setup({extensions = {["ui-select"] = {require("telescope.themes").get_dropdown()}}, defaults = {file_ignore_patterns = {}}})
 telescope.load_extension("ui-select")
+local mason = require("mason")
+mason.setup({})
+require("mini.ai").setup({n_lines = 500})
+require("mini.ai").setup({})
+local statusline = require("mini.statusline")
+statusline.setup({use_icons = true})
+local function _18_()
+  return "%2l:%-2v"
+end
+statusline["section_location"] = _18_
 return nil
