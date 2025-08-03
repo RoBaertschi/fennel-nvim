@@ -90,7 +90,7 @@ local function fnl_buf_write_post(ev)
   return nil
 end
 va.nvim_create_autocmd({"BufWritePost"}, {group = group, pattern = {"*.fnl"}, callback = fnl_buf_write_post})
-require("plugins")
-require("keys")
-require("lsp")
+require("config.plugins")
+require("config.keys")
+require("config.lsp")
 return nil

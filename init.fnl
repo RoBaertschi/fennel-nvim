@@ -126,7 +126,7 @@ l
     ) nil)
   )})
 
-(require "plugins")
-(require "keys")
-(require "lsp")
+(require "config.plugins")
+(require "config.keys")
+(require "config.lsp")
 nil

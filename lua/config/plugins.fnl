@@ -42,9 +42,7 @@
   (when (not (installed name))
     (case (clone-plugin src (plugin-path name) (or branch? nil))
       failed (error (vim.inspect failed))
-      nil nil
-      ))
-  )
+      nil nil)))
 
 
 (add-plugin :tokyonight "https://github.com/folke/tokyonight.nvim.git")
@@ -52,6 +50,7 @@
 (add-plugin :which-key "https://github.com/folke/which-key.nvim")
 (add-plugin :mason "https://github.com/mason-org/mason.nvim")
 (add-plugin :lsp-config "https://github.com/neovim/nvim-lspconfig")
+(add-plugin :oil "https://github.com/stevearc/oil.nvim")
 
 ; telescope
 (add-plugin :plenary "https://github.com/nvim-lua/plenary.nvim")
@@ -153,4 +152,7 @@
 (local statusline (require :mini.statusline))
 (statusline.setup { :use_icons true })
 (tset statusline :section_location (lambda [] "%2l:%-2v"))
+
+; oil
+((. (require :oil) :setup) {})
 nil

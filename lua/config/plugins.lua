@@ -70,6 +70,7 @@ add_plugin("nvim-treesitter", "https://github.com/nvim-treesitter/nvim-treesitte
 add_plugin("which-key", "https://github.com/folke/which-key.nvim")
 add_plugin("mason", "https://github.com/mason-org/mason.nvim")
 add_plugin("lsp-config", "https://github.com/neovim/nvim-lspconfig")
+add_plugin("oil", "https://github.com/stevearc/oil.nvim")
 add_plugin("plenary", "https://github.com/nvim-lua/plenary.nvim")
 add_plugin("nvim-web-devicons", "https://github.com/nvim-tree/nvim-web-devicons")
 add_plugin("telescope-ui-select", "https://github.com/nvim-telescope/telescope-ui-select.nvim")
@@ -101,7 +102,7 @@ end
 nvim_treesitter.install(install)
 local group = vim.api.nvim_create_augroup("vimrc-treesitter", {clear = true})
 local function _12_(args)
-  _G.assert((nil ~= args), "Missing argument args on C:\\Users\\Robin\\AppData\\Local\\nvim\\plugins.fnl:94")
+  _G.assert((nil ~= args), "Missing argument args on C:/Users/Robin/AppData/Local/nvim/plugins.fnl:93")
   do
     local ok = pcall(vim.treesitter.start, args.buf)
     local setup
@@ -154,4 +155,5 @@ local function _18_()
   return "%2l:%-2v"
 end
 statusline["section_location"] = _18_
+require("oil").setup({})
 return nil
