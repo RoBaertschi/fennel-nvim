@@ -38,7 +38,7 @@
     (if (= result.code 0) nil result)
     ))
 
-(fn add-plugin [name src branch?]defer_fn
+(fn add-plugin [name src branch?] defer_fn
   (when (not (installed name))
     (case (clone-plugin src (plugin-path name) (or branch? nil))
       failed (error (vim.inspect failed))
@@ -85,6 +85,24 @@
 
 
 (local group (vim.api.nvim_create_augroup "vimrc-treesitter" { :clear true }))
+(vim.api.nvim_create_autocmd
+  "User"
+  {
+  :pattern "TSUpdate"
+  : group
+  :callback
+  (lambda [args]
+    (tset (require :nvim-treesitter.parsers)
+          :odin
+          {
+          :install_info {
+            :url "https://github.com/RoBaertschi/tree-sitter-odin"
+            :queries "queries"
+            :branch "master"
+          }
+          }))
+  }
+  )
 (vim.api.nvim_create_autocmd
   "FileType"
   {

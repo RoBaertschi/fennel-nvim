@@ -62,7 +62,7 @@ local function fnl_buf_write_post(ev)
   if windows then
     _5_ = (config_path .. "\\bin\\fennel.exe")
   else
-    _5_ = (config_path .. "bin/fennel")
+    _5_ = (config_path .. "/bin/fennel")
   end
   local function fennel_compile_on_exit_command(completed)
     if completed then

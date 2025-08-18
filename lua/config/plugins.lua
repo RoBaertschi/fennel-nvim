@@ -102,11 +102,17 @@ end
 nvim_treesitter.install(install)
 local group = vim.api.nvim_create_augroup("vimrc-treesitter", {clear = true})
 local function _12_(args)
-  _G.assert((nil ~= args), "Missing argument args on C:/Users/Robin/AppData/Local/nvim/plugins.fnl:93")
+  _G.assert((nil ~= args), "Missing argument args on /home/robin/.config/nvim/lua/config/plugins.fnl:94")
+  require("nvim-treesitter.parsers")["odin"] = {install_info = {url = "https://github.com/RoBaertschi/tree-sitter-odin", queries = "queries", branch = "master"}}
+  return nil
+end
+vim.api.nvim_create_autocmd("User", {pattern = "TSUpdate", group = group, callback = _12_})
+local function _13_(args)
+  _G.assert((nil ~= args), "Missing argument args on /home/robin/.config/nvim/lua/config/plugins.fnl:111")
   do
     local ok = pcall(vim.treesitter.start, args.buf)
     local setup
-    local function _13_()
+    local function _14_()
       vim.bo["indentexpr"] = "v:lua.require('nvim-treesitter').indentexpr()"
       vim.wo["foldtext"] = "v:lua.require('nvim-treesitter').foldtext()"
       vim.wo["foldmethod"] = "expr"
@@ -116,12 +122,12 @@ local function _12_(args)
       vim.opt["foldnestmax"] = 99
       return nil
     end
-    setup = _13_
+    setup = _14_
     if ok then
       setup()
     else
       local a = require("nvim-treesitter.async")
-      local function _14_()
+      local function _15_()
         local installing = require("nvim-treesitter.install").install(vim.treesitter.language.get_lang(args.match))
         if pcall(a.await, installing) then
           vim.treesitter.start(args.buf)
@@ -130,18 +136,18 @@ local function _12_(args)
           return nil
         end
       end
-      a.arun(_14_)
+      a.arun(_15_)
     end
   end
   return nil
 end
-vim.api.nvim_create_autocmd("FileType", {group = group, callback = _12_})
+vim.api.nvim_create_autocmd("FileType", {group = group, callback = _13_})
 local which_key = require("which-key")
 which_key.setup({})
-local function _17_()
+local function _18_()
   return which_key.show({global = false})
 end
-vim.keymap.set("n", "<leader>?", _17_)
+vim.keymap.set("n", "<leader>?", _18_)
 local telescope = require("telescope")
 telescope.setup({extensions = {["ui-select"] = {require("telescope.themes").get_dropdown()}}, defaults = {file_ignore_patterns = {}}})
 telescope.load_extension("ui-select")
@@ -151,9 +157,9 @@ require("mini.ai").setup({n_lines = 500})
 require("mini.ai").setup({})
 local statusline = require("mini.statusline")
 statusline.setup({use_icons = true})
-local function _18_()
+local function _19_()
   return "%2l:%-2v"
 end
-statusline["section_location"] = _18_
+statusline["section_location"] = _19_
 require("oil").setup({})
 return nil
