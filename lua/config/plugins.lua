@@ -1,4 +1,5 @@
 local data = vim.fn.stdpath("data")
+local config = vim.fn.stdpath("config")
 local loop = (vim.uv or vim.loop)
 local plugins = {}
 local pack_dir = (data .. "/site/pack")
@@ -102,7 +103,7 @@ end
 nvim_treesitter.install(install)
 local group = vim.api.nvim_create_augroup("vimrc-treesitter", {clear = true})
 local function _12_(args)
-  _G.assert((nil ~= args), "Missing argument args on C:/Users/Robin/AppData/Local/nvim/plugins.fnl:93")
+  _G.assert((nil ~= args), "Missing argument args on C:\\Users\\Robin\\AppData\\Local\\nvim\\lua\\config\\plugins.fnl:94")
   do
     local ok = pcall(vim.treesitter.start, args.buf)
     local setup
@@ -147,6 +148,12 @@ telescope.setup({extensions = {["ui-select"] = {require("telescope.themes").get_
 telescope.load_extension("ui-select")
 local mason = require("mason")
 mason.setup({})
+local mini_snippets = require("mini.snippets")
+do
+  local gen_loader = mini_snippets.gen_loader
+  mini_snippets.setup({snippets = {gen_loader.from_file((config .. "/snippets/global.json")), gen_loader.from_lang()}})
+end
+mini_snippets.start_lsp_server()
 require("mini.ai").setup({n_lines = 500})
 require("mini.ai").setup({})
 local statusline = require("mini.statusline")

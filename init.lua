@@ -38,7 +38,6 @@ vo["listchars"] = {tab = "\194\187 ", trail = "\194\183", nbsp = "\226\144\163"}
 vo["inccommand"] = "split"
 vo["cursorline"] = true
 vo["scrolloff"] = 10
-vg["c_syntax_for_h"] = 1
 vo["tabstop"] = 4
 vo["softtabstop"] = 4
 vo["shiftwidth"] = 4

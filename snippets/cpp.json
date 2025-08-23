@@ -1,0 +1,7 @@
+{
+    "HeaderGuard": {
+        "prefix": "hg",
+        "body": "#ifndef ${1:$TM_FILENAME_BASE}\n#define $1\n\n$0\n\n#endif // $1",
+        "desc": "Generate header guard"
+    }
+}

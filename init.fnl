@@ -64,7 +64,7 @@ l
 ; Minimal number of screen lines to keep above and below the cursor.
 (tset vo :scrolloff 10)
 
-(tset vg :c_syntax_for_h 1)
+; (tset vg :c_syntax_for_h 1)
 
 (tset vo :tabstop 4)
 (tset vo :softtabstop 4)
