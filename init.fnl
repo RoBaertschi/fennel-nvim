@@ -96,7 +96,7 @@ l
                     [
                      (if windows
                          (.. config-path "\\bin\\fennel.exe")
-                         (.. config-path "bin/fennel"))
+                         (.. config-path "/bin/fennel"))
                      "--compile"
                      file-name]
                     { :text true }
