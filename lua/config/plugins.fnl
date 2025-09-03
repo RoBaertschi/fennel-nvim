@@ -182,7 +182,7 @@
 (mini-snippets.start_lsp_server)
 
 ((. (require :mini.ai) :setup) { :n_lines 500 })
-((. (require :mini.ai) :setup) {})
+((. (require :mini.surround) :setup) {})
 (local statusline (require :mini.statusline))
 (statusline.setup { :use_icons true })
 (tset statusline :section_location (lambda [] "%2l:%-2v"))
