@@ -103,13 +103,13 @@ end
 nvim_treesitter.install(install)
 local group = vim.api.nvim_create_augroup("vimrc-treesitter", {clear = true})
 local function _12_(args)
-  _G.assert((nil ~= args), "Missing argument args on C:\\Users\\Robin\\AppData\\Local\\nvim\\lua\\config\\plugins.fnl:95")
-  require("nvim-treesitter.parsers")["odin"] = {install_info = {url = "https://github.com/RoBaertschi/tree-sitter-odin", queries = "queries", branch = "master"}}
+  _G.assert((nil ~= args), "Missing argument args on C:/Users/rtmba/AppData/Local/nvim/lua/config/plugins.fnl:95")
+  require("nvim-treesitter.parsers")["odin"] = {install_info = {url = "https://github.com/RoBaertschi/tree-sitter-odin", branch = "master"}}
   return nil
 end
 vim.api.nvim_create_autocmd("User", {pattern = "TSUpdate", group = group, callback = _12_})
 local function _13_(args)
-  _G.assert((nil ~= args), "Missing argument args on C:\\Users\\Robin\\AppData\\Local\\nvim\\lua\\config\\plugins.fnl:112")
+  _G.assert((nil ~= args), "Missing argument args on C:/Users/rtmba/AppData/Local/nvim/lua/config/plugins.fnl:111")
   do
     local ok = pcall(vim.treesitter.start, args.buf)
     local setup

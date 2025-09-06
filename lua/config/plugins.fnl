@@ -98,7 +98,6 @@
           {
           :install_info {
             :url "https://github.com/RoBaertschi/tree-sitter-odin"
-            :queries "queries"
             :branch "master"
           }
           }))
