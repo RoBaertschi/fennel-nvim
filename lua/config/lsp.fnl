@@ -1,4 +1,4 @@
-(local lsps ["lua_ls" "rust_analyzer"])
+(local lsps ["lua_ls" "rust_analyzer" "ts_ls"])
 
 (each [_ lsp (ipairs lsps)]
   (vim.lsp.enable lsp))
@@ -24,7 +24,18 @@
     :callback
     (lambda [ev]
       (let [client (assert (vim.lsp.get_client_by_id ev.data.client_id))]
-        (when (and 
+        (let [map (lambda [keys func desc] (vim.keymap.set :n keys func { :buffer ev.buf :desc (.. "LSP: " desc) }))]
+            (map :gd (. (require :telescope.builtin) :lsp_definitions) "[G]oto [D]efinition")
+            (map :gr (. (require :telescope.builtin) :lsp_references) "[G]oto [R]eferences")
+            (map :gI (. (require :telescope.builtin) :lsp_implementations) "[G]oto [I]mplementation")
+            (map "<leader>D" (. (require "telescope.builtin") :lsp_type_definitions) "Type [D]efinition")
+            (map "<leader>ds" (. (require "telescope.builtin") :lsp_document_symbols) "[D]ocument [S]ymbols")
+            (map "<leader>ws" (. (require "telescope.builtin") :lsp_dynamic_workspace_symbols) "[W]orkspace [S]ymbols")
+            (map "<leader>rn" vim.lsp.buf.rename "[R]e[n]ame")
+            (map "<leader>ca" vim.lsp.buf.code_action "[C]ode [A]ction")
+            (map "gD" vim.lsp.buf.declaration "[G]oto [D]eclaration")
+            )
+        (when (and
                 (not (client:supports_method "textDocument/willSaveWaitUntil"))
                 (client:supports_method "textDocument/formatting"))
           (vim.api.nvim_create_autocmd
