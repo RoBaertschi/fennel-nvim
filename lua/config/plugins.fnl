@@ -165,20 +165,6 @@
 (mason.setup {})
 
 ; mini
-(local mini-snippets (require :mini.snippets))
-; (tset mini-snippets.var_evaluators :TM_FILENAME_UPPER
-;       (lambda [] (vim.fn.toupper (vim.fn.expand "%:t:r"))))
-(let [gen_loader (. mini-snippets :gen_loader)]
-    (mini-snippets.setup
-      {
-      :snippets
-      [
-       (gen_loader.from_file (.. config "/snippets/global.json"))
-       (gen_loader.from_lang)
-       ]
-      })
-  )
-(mini-snippets.start_lsp_server)
 
 ((. (require :mini.ai) :setup) { :n_lines 500 })
 ((. (require :mini.surround) :setup) {})

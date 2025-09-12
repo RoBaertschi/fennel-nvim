@@ -103,13 +103,13 @@ end
 nvim_treesitter.install(install)
 local group = vim.api.nvim_create_augroup("vimrc-treesitter", {clear = true})
 local function _12_(args)
-  _G.assert((nil ~= args), "Missing argument args on C:/Users/rtmba/AppData/Local/nvim/lua/config/plugins.fnl:95")
+  _G.assert((nil ~= args), "Missing argument args on C:\\Users\\rtmba\\AppData\\Local\\nvim\\lua\\config\\plugins.fnl:95")
   require("nvim-treesitter.parsers")["odin"] = {install_info = {url = "https://github.com/RoBaertschi/tree-sitter-odin", branch = "master"}}
   return nil
 end
 vim.api.nvim_create_autocmd("User", {pattern = "TSUpdate", group = group, callback = _12_})
 local function _13_(args)
-  _G.assert((nil ~= args), "Missing argument args on C:/Users/rtmba/AppData/Local/nvim/lua/config/plugins.fnl:111")
+  _G.assert((nil ~= args), "Missing argument args on C:\\Users\\rtmba\\AppData\\Local\\nvim\\lua\\config\\plugins.fnl:111")
   do
     local ok = pcall(vim.treesitter.start, args.buf)
     local setup
@@ -154,12 +154,6 @@ telescope.setup({extensions = {["ui-select"] = {require("telescope.themes").get_
 telescope.load_extension("ui-select")
 local mason = require("mason")
 mason.setup({})
-local mini_snippets = require("mini.snippets")
-do
-  local gen_loader = mini_snippets.gen_loader
-  mini_snippets.setup({snippets = {gen_loader.from_file((config .. "/snippets/global.json")), gen_loader.from_lang()}})
-end
-mini_snippets.start_lsp_server()
 require("mini.ai").setup({n_lines = 500})
 require("mini.surround").setup({})
 local statusline = require("mini.statusline")
