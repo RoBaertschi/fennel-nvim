@@ -31,7 +31,7 @@ local function _2_(ev)
       local function _3_(ev0)
         _G.assert((nil ~= ev0), "Missing argument ev on C:\\Users\\Robin\\AppData\\Local\\nvim\\lua\\config\\lsp.fnl:47")
         vim.lsp.buf.clear_references()
-        return vim.api.nvim_clear_autocmds({group = "vimrc-lsp-highlight", buffer = ev2.buf})
+        return vim.api.nvim_clear_autocmds({group = "vimrc-lsp-highlight", buffer = ev0.buf})
       end
       vim.api.nvim_create_autocmd("LspDetach", {group = vim.api.nvim_create_augroup("vimrc-lsp-detach", {clear = true}), callback = _3_})
     else

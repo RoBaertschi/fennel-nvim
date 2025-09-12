@@ -44,7 +44,7 @@
                :LspDetach
                {
                :group (vim.api.nvim_create_augroup :vimrc-lsp-detach { :clear true })
-               :callback (lambda [ev] (vim.lsp.buf.clear_references) (vim.api.nvim_clear_autocmds { :group :vimrc-lsp-highlight :buffer ev2.buf }))
+               :callback (lambda [ev] (vim.lsp.buf.clear_references) (vim.api.nvim_clear_autocmds { :group :vimrc-lsp-highlight :buffer ev.buf }))
                })
              ))
          (when (and client (client-supports-method client vim.lsp.protocol.Methods.textDocument_inlayHint ev.buf))
