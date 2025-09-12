@@ -111,32 +111,31 @@
               [args]
 
               (let [
-                    ok (pcall vim.treesitter.start args.buf)
-                    setup (lambda []
-                            (tset vim.bo :indentexpr "v:lua.require('nvim-treesitter').indentexpr()")
-                            (tset vim.wo :foldtext "v:lua.require('nvim-treesitter').foldtext()")
-                            (tset vim.wo :foldmethod "expr")
-                            (tset vim.wo :foldexpr "v:lua.require('nvim-treesitter').foldexpr()")
-                            (tset vim.wo :foldlevel 99)
-                            (tset vim.opt :foldlevelstart -1)
-                            (tset vim.opt :foldnestmax 99)
-                            )
+                    attach (lambda [buf language]
+                             (if
+                               (not (vim.treesitter.language.add language))
+                               false
+                               (let []
+                                 (vim.treesitter.start buf language)
+                                 (tset vim.bo :indentexpr "v:lua.require('nvim-treesitter').indentexpr()")
+                                 (tset vim.wo :foldtext "v:lua.require('nvim-treesitter').foldtext()")
+                                 (tset vim.wo :foldmethod "expr")
+                                 (tset vim.wo :foldexpr "v:lua.require('nvim-treesitter').foldexpr()")
+                                 (tset vim.wo :foldlevel 99)
+                                 (tset vim.opt :foldlevelstart -1)
+                                 (tset vim.opt :foldnestmax 99)
+                                 true
+                               )
+                             ))
+                    language (vim.treesitter.language.get_lang args.match)
 
                     ]
-                (if ok (do (setup))
-                    (let [a (require :nvim-treesitter.async)]
-                      (a.arun
-                        (lambda []
-                          (let
-                            [installing ((. (require :nvim-treesitter.install) :install) (vim.treesitter.language.get_lang args.match))]
-
-                            (when (pcall a.await installing)
-                              (vim.treesitter.start args.buf)
-                              (setup)
-                              )
-                            )))
-                      )
-                    )
+                (when language
+                  (when (not (attach args.buf language))
+                    (let
+                      [installing ((. (require :nvim-treesitter.install) :install) language)]
+                      (installing:await
+                        (lambda [] (attach args.buf language))))))
                 ) nil
               )
   })

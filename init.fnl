@@ -100,29 +100,29 @@ l
                      "--compile"
                      file-name]
                     { :text true }
-                      (fn fennel-compile-on-exit-command [completed]
-                        (when completed
-                          (if
-                            (= completed.code 0)
-                            (let [new-file (change-extension file-name "lua")]
-                              (case (io.open new-file "w+")
-                                file (do
-                                    (file:write completed.stdout)
-                                    (file:close)
-                                    (schedule-notify
-                                      (.. (.. (.. "Compiled " file-name) " to ") new-file))
-                                    )
-                                (nil err-msg) (schedule-notify
+                    (fn fennel-compile-on-exit-command [completed]
+                      (when completed
+                        (if
+                          (= completed.code 0)
+                          (let [new-file (change-extension file-name "lua")]
+                            (case (io.open new-file "w+")
+                              file (do
+                                  (file:write completed.stdout)
+                                  (file:close)
+                                  (schedule-notify
+                                    (.. (.. (.. "Compiled " file-name) " to ") new-file))
+                                  )
+                              (nil err-msg) (schedule-notify
+                                              (..
                                                 (..
                                                   (..
-                                                    (..
-                                                      "Could not open file " new-file)
-                                                    ": ") err-msg))))
-                              (schedule-notify (..
-                                            (.. "stdout:\n" completed.stdout)
-                                            (.. "stderr:\n" completed.stderr))
-                                          vim.log.levels.ERROR)
-                               )) nil)
+                                                    "Could not open file " new-file)
+                                                  ": ") err-msg))))
+                            (schedule-notify (..
+                                          (.. "stdout:\n" completed.stdout)
+                                          (.. "stderr:\n" completed.stderr))
+                                        vim.log.levels.ERROR)
+                             )) nil)
     ) nil)
   )})
 

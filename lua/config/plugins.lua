@@ -103,41 +103,44 @@ end
 nvim_treesitter.install(install)
 local group = vim.api.nvim_create_augroup("vimrc-treesitter", {clear = true})
 local function _12_(args)
-  _G.assert((nil ~= args), "Missing argument args on C:\\Users\\rtmba\\AppData\\Local\\nvim\\lua\\config\\plugins.fnl:95")
+  _G.assert((nil ~= args), "Missing argument args on C:\\Users\\Robin\\AppData\\Local\\nvim\\lua\\config\\plugins.fnl:95")
   require("nvim-treesitter.parsers")["odin"] = {install_info = {url = "https://github.com/RoBaertschi/tree-sitter-odin", branch = "master"}}
   return nil
 end
 vim.api.nvim_create_autocmd("User", {pattern = "TSUpdate", group = group, callback = _12_})
 local function _13_(args)
-  _G.assert((nil ~= args), "Missing argument args on C:\\Users\\rtmba\\AppData\\Local\\nvim\\lua\\config\\plugins.fnl:111")
+  _G.assert((nil ~= args), "Missing argument args on C:\\Users\\Robin\\AppData\\Local\\nvim\\lua\\config\\plugins.fnl:111")
   do
-    local ok = pcall(vim.treesitter.start, args.buf)
-    local setup
-    local function _14_()
-      vim.bo["indentexpr"] = "v:lua.require('nvim-treesitter').indentexpr()"
-      vim.wo["foldtext"] = "v:lua.require('nvim-treesitter').foldtext()"
-      vim.wo["foldmethod"] = "expr"
-      vim.wo["foldexpr"] = "v:lua.require('nvim-treesitter').foldexpr()"
-      vim.wo["foldlevel"] = 99
-      vim.opt["foldlevelstart"] = -1
-      vim.opt["foldnestmax"] = 99
-      return nil
-    end
-    setup = _14_
-    if ok then
-      setup()
-    else
-      local a = require("nvim-treesitter.async")
-      local function _15_()
-        local installing = require("nvim-treesitter.install").install(vim.treesitter.language.get_lang(args.match))
-        if pcall(a.await, installing) then
-          vim.treesitter.start(args.buf)
-          return setup()
-        else
-          return nil
-        end
+    local attach
+    local function _14_(buf, language)
+      _G.assert((nil ~= language), "Missing argument language on C:\\Users\\Robin\\AppData\\Local\\nvim\\lua\\config\\plugins.fnl:114")
+      _G.assert((nil ~= buf), "Missing argument buf on C:\\Users\\Robin\\AppData\\Local\\nvim\\lua\\config\\plugins.fnl:114")
+      if not vim.treesitter.language.add(language) then
+        return false
+      else
+        vim.treesitter.start(buf, language)
+        vim.bo["indentexpr"] = "v:lua.require('nvim-treesitter').indentexpr()"
+        vim.wo["foldtext"] = "v:lua.require('nvim-treesitter').foldtext()"
+        vim.wo["foldmethod"] = "expr"
+        vim.wo["foldexpr"] = "v:lua.require('nvim-treesitter').foldexpr()"
+        vim.wo["foldlevel"] = 99
+        vim.opt["foldlevelstart"] = -1
+        vim.opt["foldnestmax"] = 99
+        return true
       end
-      a.arun(_15_)
+    end
+    attach = _14_
+    local language = vim.treesitter.language.get_lang(args.match)
+    if language then
+      if not attach(args.buf, language) then
+        local installing = require("nvim-treesitter.install").install(language)
+        local function _16_()
+          return attach(args.buf, language)
+        end
+        installing:await(_16_)
+      else
+      end
+    else
     end
   end
   return nil
@@ -145,10 +148,10 @@ end
 vim.api.nvim_create_autocmd("FileType", {group = group, callback = _13_})
 local which_key = require("which-key")
 which_key.setup({})
-local function _18_()
+local function _19_()
   return which_key.show({global = false})
 end
-vim.keymap.set("n", "<leader>?", _18_)
+vim.keymap.set("n", "<leader>?", _19_)
 local telescope = require("telescope")
 telescope.setup({extensions = {["ui-select"] = {require("telescope.themes").get_dropdown()}}, defaults = {file_ignore_patterns = {}}})
 telescope.load_extension("ui-select")
@@ -158,9 +161,9 @@ require("mini.ai").setup({n_lines = 500})
 require("mini.surround").setup({})
 local statusline = require("mini.statusline")
 statusline.setup({use_icons = true})
-local function _19_()
+local function _20_()
   return "%2l:%-2v"
 end
-statusline["section_location"] = _19_
+statusline["section_location"] = _20_
 require("oil").setup({})
 return nil
