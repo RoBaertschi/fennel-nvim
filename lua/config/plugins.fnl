@@ -39,7 +39,7 @@
     (if (= result.code 0) nil result)
     ))
 
-(fn add-plugin [name src branch?] defer_fn
+(fn add-plugin [name src branch?]
   (when (not (installed name))
     (case (clone-plugin src (plugin-path name) (or branch? nil))
       failed (error (vim.inspect failed))
@@ -58,7 +58,10 @@
 (add-plugin :nvim-web-devicons "https://github.com/nvim-tree/nvim-web-devicons")
 (add-plugin :telescope-ui-select "https://github.com/nvim-telescope/telescope-ui-select.nvim")
 (add-plugin :telescope "https://github.com/nvim-telescope/telescope.nvim")
+
 (add-plugin :mini "https://github.com/echasnovski/mini.nvim")
+(add-plugin :blink.cmp "https://github.com/saghen/blink.cmp" :v1.6.0)
+(add-plugin :conform "https://github.com/stevearc/conform.nvim")
 
 (vim.cmd "packl!")
 
@@ -80,9 +83,8 @@
       (when found (set already-installed true)))
     (when (not already-installed)
       (table.insert install value))
-    ))
-
-(nvim-treesitter.install install)
+    )
+  (nvim-treesitter.install install))
 
 
 (local group (vim.api.nvim_create_augroup "vimrc-treesitter" { :clear true }))
@@ -130,7 +132,7 @@
                     language (vim.treesitter.language.get_lang args.match)
 
                     ]
-                (when language
+                (when (and language (~= language :odin))
                   (when (not (attach args.buf language))
                     (let
                       [installing ((. (require :nvim-treesitter.install) :install) language)]
@@ -173,4 +175,14 @@
 
 ; oil
 ((. (require :oil) :setup) {})
+
+; conform.nvim
+((. (require :conform) :setup) {:notify_on_error false
+                                :format_on_save
+                                (lambda [bufnr]
+                                  (let [disable_filetype { :c true :cpp true }]
+                                    (if (. disable_filetype (. (. vim.bo bufnr) :filetype)) nil {:timeout_ms 500 :lsp_format :fallback})))
+                                :formatters_by_ft { :lua [ :stylua ] }})
+
+(vim.keymap.set :n "<leader>f" (lambda [] ((. (require :conform) :format) { :async true :lsp_format :fallback })))
 nil

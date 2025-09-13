@@ -98,7 +98,12 @@
          )) nil)})
 
 
-(local lsps ["lua_ls" "rust_analyzer" "ts_ls"])
+(vim.lsp.config
+  "*"
+  {
+  :capabilities ((. (require :blink.cmp) :get_lsp_capabilities) {} false)
+  })
+(local lsps ["lua_ls" "rust_analyzer" "ts_ls" "fennel_ls"])
 
 (each [_ lsp (ipairs lsps)]
   (vim.lsp.enable lsp))
@@ -117,11 +122,37 @@
       })
   )
 ; (mini-snippets.start_lsp_server)
-((. (require :mini.completion) :setup) {
-   :delay { :completion 0 :signature 0 :info 0 }
-   :mappings {
-     :force_twostep "<C-$>"
-     :force_fallback "<A-$>"}})
+; ((. (require :mini.completion) :setup) {
+;    :delay { :completion 0 :signature 0 :info 0 }
+;    :mappings {
+;      :force_twostep "<C-$>"
+;      :force_fallback "<A-$>"}})
+
+((. (require :blink.cmp) :setup)
+ {
+  :keymap {
+   :preset :default
+  }
+  :appearance {
+   :nerd_font_variant :mono
+  :documentation {
+   :auto_show true
+   :auto_show_delay_ms 500
+  }
+  :sources {
+   :default [:lsp :buffer :path :snippets]
+  }
+  :snippets {
+   :preset :mini_snippets
+  }
+  :fuzzy {
+   :implementation :prefer_rust_with_warning
+  }
+  :signature {
+   :enabled true
+  }
+  }
+ })
 
 
 
