@@ -31,7 +31,22 @@ do
   else
   end
 end
-local function _6_()
+local loop = (vim.uv or vim.loop)
+if loop.fs_stat("/usr/src/linux") then
+  local function _6_()
+    local function _7_()
+      return builtin.find_files({cwd = "/usr/src/linux/", prompt_title = "Search Linux Files"})
+    end
+    vim.keymap.set("n", "<leader>slf", _7_, {desc = "[S]earch [L]inux [F]iles"})
+    local function _8_()
+      return builtin.live_grep({cwd = "/usr/src/linux/", prompt_title = "Grep Linux Files"})
+    end
+    return vim.keymap.set("n", "<leader>slg", _8_, {desc = "[S]earch [L]inux [G]rep"})
+  end
+  _6_()
+else
+end
+local function _10_()
   local overseer = require("overseer")
   local tasks = overseer.list_tasks({recent_first = true})
   if vim.tbl_isempty(tasks) then
@@ -40,14 +55,14 @@ local function _6_()
     return overseer.run_action(tasks[1], "restart")
   end
 end
-vim.api.nvim_create_user_command("OverseerRestartLast", _6_, {})
+vim.api.nvim_create_user_command("OverseerRestartLast", _10_, {})
 vim.keymap.set("n", "<leader>or", "<ESC>:OverseerRun<CR>", {desc = "[O]verseer [R]un"})
 vim.keymap.set("n", "<leader>orl", "<ESC>:OverseerRestartLast<CR>", {desc = "[O]verseer [R]un [L]ast"})
 vim.keymap.set("n", "<leader>b", "<ESC>:OverseerRestartLast<CR>", {desc = "Overseer Run Last"})
 local vks = vim.keymap.set
-local function _8_()
+local function _12_()
   package.loaded = nil
   return vim.cmd(("source " .. (vim.fn.stdpath("config") .. "/init.lua")))
 end
-vks("n", "<leader>cs", _8_, {desc = "[C]onfig [S]ource"})
+vks("n", "<leader>cs", _12_, {desc = "[C]onfig [S]ource"})
 return nil

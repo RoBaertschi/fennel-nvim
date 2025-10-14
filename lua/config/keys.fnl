@@ -36,6 +36,16 @@
          )
   nil nil)
 
+(local loop (or vim.uv vim.loop))
+(if (loop.fs_stat "/usr/src/linux")
+    ((lambda []
+      (vim.keymap.set "n" "<leader>slf" (lambda []
+                                          (builtin.find_files { :cwd "/usr/src/linux/" :prompt_title "Search Linux Files" }))
+                      { :desc "[S]earch [L]inux [F]iles" })
+      (vim.keymap.set "n" "<leader>slg" (lambda []
+                                          (builtin.live_grep { :cwd "/usr/src/linux/" :prompt_title "Grep Linux Files" }))
+                      { :desc "[S]earch [L]inux [G]rep" }))))
+
 ; vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
 ; vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
 ; vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })

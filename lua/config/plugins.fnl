@@ -62,6 +62,7 @@
 (add-plugin :mini "https://github.com/echasnovski/mini.nvim")
 (add-plugin :blink.cmp "https://github.com/saghen/blink.cmp" :v1.6.0)
 (add-plugin :conform "https://github.com/stevearc/conform.nvim")
+(add-plugin :todo-comments "https://github.com/folke/todo-comments.nvim")
 
 (vim.cmd "packl!")
 
@@ -185,4 +186,17 @@
                                 :formatters_by_ft { :lua [ :stylua ] }})
 
 (vim.keymap.set :n "<leader>f" (lambda [] ((. (require :conform) :format) { :async true :lsp_format :fallback })))
+
+((. (require :todo-comments) :setup)
+ {
+  :signs false
+  :highlight {
+   :pattern [ ".*<(KEYWORDS)\\s*:" ".*<(KEYWORDS)\\s*\\(\\w*\\)\\s*:" ]
+   :keyword :bg
+  }
+  :search {
+   :pattern "\\b(KEYWORDS)\\s*(\\(\\w*\\))?\\s*:"
+  }
+ })
+
 nil

@@ -79,6 +79,7 @@ add_plugin("telescope", "https://github.com/nvim-telescope/telescope.nvim")
 add_plugin("mini", "https://github.com/echasnovski/mini.nvim")
 add_plugin("blink.cmp", "https://github.com/saghen/blink.cmp", "v1.6.0")
 add_plugin("conform", "https://github.com/stevearc/conform.nvim")
+add_plugin("todo-comments", "https://github.com/folke/todo-comments.nvim")
 vim.cmd("packl!")
 vim.cmd("colorscheme tokyonight-night")
 local nvim_treesitter = require("nvim-treesitter")
@@ -105,18 +106,18 @@ do
 end
 local group = vim.api.nvim_create_augroup("vimrc-treesitter", {clear = true})
 local function _12_(args)
-  _G.assert((nil ~= args), "Missing argument args on /home/robin/.config/nvim/lua/config/plugins.fnl:97")
+  _G.assert((nil ~= args), "Missing argument args on /home/robin/.config/nvim/lua/config/plugins.fnl:98")
   require("nvim-treesitter.parsers")["odin"] = {install_info = {url = "https://github.com/RoBaertschi/tree-sitter-odin", branch = "master"}}
   return nil
 end
 vim.api.nvim_create_autocmd("User", {pattern = "TSUpdate", group = group, callback = _12_})
 local function _13_(args)
-  _G.assert((nil ~= args), "Missing argument args on /home/robin/.config/nvim/lua/config/plugins.fnl:113")
+  _G.assert((nil ~= args), "Missing argument args on /home/robin/.config/nvim/lua/config/plugins.fnl:114")
   do
     local attach
     local function _14_(buf, language)
-      _G.assert((nil ~= language), "Missing argument language on /home/robin/.config/nvim/lua/config/plugins.fnl:116")
-      _G.assert((nil ~= buf), "Missing argument buf on /home/robin/.config/nvim/lua/config/plugins.fnl:116")
+      _G.assert((nil ~= language), "Missing argument language on /home/robin/.config/nvim/lua/config/plugins.fnl:117")
+      _G.assert((nil ~= buf), "Missing argument buf on /home/robin/.config/nvim/lua/config/plugins.fnl:117")
       if not vim.treesitter.language.add(language) then
         return false
       else
@@ -169,7 +170,7 @@ end
 statusline["section_location"] = _20_
 require("oil").setup({})
 local function _21_(bufnr)
-  _G.assert((nil ~= bufnr), "Missing argument bufnr on /home/robin/.config/nvim/lua/config/plugins.fnl:182")
+  _G.assert((nil ~= bufnr), "Missing argument bufnr on /home/robin/.config/nvim/lua/config/plugins.fnl:183")
   local disable_filetype = {c = true, cpp = true}
   if disable_filetype[vim.bo[bufnr].filetype] then
     return nil
@@ -182,4 +183,5 @@ local function _23_()
   return require("conform").format({async = true, lsp_format = "fallback"})
 end
 vim.keymap.set("n", "<leader>f", _23_)
+require("todo-comments").setup({highlight = {pattern = {".*<(KEYWORDS)\\s*:", ".*<(KEYWORDS)\\s*\\(\\w*\\)\\s*:"}, keyword = "bg"}, search = {pattern = "\\b(KEYWORDS)\\s*(\\(\\w*\\))?\\s*:"}, signs = false})
 return nil
