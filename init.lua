@@ -19,7 +19,7 @@ vo["number"] = true
 vo["relativenumber"] = true
 vo["mouse"] = "a"
 vo["showmode"] = true
-if vim.fn.has("linux") then
+if (vim.fn.has("linux") ~= 0) then
   vg["clipboard"] = "osc52"
 else
 end
