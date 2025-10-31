@@ -60,7 +60,7 @@
 (add-plugin :telescope "https://github.com/nvim-telescope/telescope.nvim")
 
 (add-plugin :mini "https://github.com/echasnovski/mini.nvim")
-(add-plugin :blink.cmp "https://github.com/saghen/blink.cmp" :v1.6.0)
+(add-plugin :blink.cmp "https://github.com/saghen/blink.cmp" :v1.7.0)
 (add-plugin :conform "https://github.com/stevearc/conform.nvim")
 (add-plugin :todo-comments "https://github.com/folke/todo-comments.nvim")
 
