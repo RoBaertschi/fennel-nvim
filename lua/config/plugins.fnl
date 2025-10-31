@@ -68,6 +68,32 @@
 
 (vim.cmd "colorscheme tokyonight-night")
 
+
+(local group (vim.api.nvim_create_augroup "vimrc-treesitter" { :clear true }))
+(vim.api.nvim_create_autocmd
+  "User"
+  {
+  :pattern "TSUpdate"
+  : group
+  :callback
+  (lambda [args]
+    (tset (. (require :nvim-treesitter.parsers) :odin)
+          :install_info {
+            :url "https://github.com/RoBaertschi/tree-sitter-odin"
+            :branch "master"
+          })
+    (tset (require :nvim-treesitter.parsers)
+          :sjson {
+           :install_info {
+            :url "https://github.com/RoBaertschi/tree-sitter-sjson"
+            :revision "c9b7e606de8ec376a4641e7db1ca5722d5afff2d"
+           }
+           :maintainers [ "@RoBaertschi" ]
+           :tier 2
+          }))
+  }
+  )
+
 (local nvim-treesitter (require :nvim-treesitter))
 (nvim-treesitter.setup {})
 (vim.cmd "TSUpdate")
@@ -87,25 +113,6 @@
     )
   (nvim-treesitter.install install))
 
-
-(local group (vim.api.nvim_create_augroup "vimrc-treesitter" { :clear true }))
-(vim.api.nvim_create_autocmd
-  "User"
-  {
-  :pattern "TSUpdate"
-  : group
-  :callback
-  (lambda [args]
-    (tset (require :nvim-treesitter.parsers)
-          :odin
-          {
-          :install_info {
-            :url "https://github.com/RoBaertschi/tree-sitter-odin"
-            :branch "master"
-          }
-          }))
-  }
-  )
 (vim.api.nvim_create_autocmd
   "FileType"
   {
@@ -133,7 +140,8 @@
                     language (vim.treesitter.language.get_lang args.match)
 
                     ]
-                (when (and language (~= language :odin))
+                (when (and language ; (~= language :odin)
+                           true)
                   (when (not (attach args.buf language))
                     (let
                       [installing ((. (require :nvim-treesitter.install) :install) language)]

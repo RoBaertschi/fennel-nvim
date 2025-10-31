@@ -58,6 +58,7 @@ local function schedule_notify(message, level_3f)
   end
   return vim.schedule(_5_)
 end
+vim.filetype.add({extension = {sjson = "sjson"}})
 local group = va.nvim_create_augroup("vimrc", {clear = true})
 local function fnl_buf_write_post(ev)
   local file_name = tostring(va.nvim_buf_get_name(ev.buf))

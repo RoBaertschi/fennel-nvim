@@ -82,6 +82,14 @@ add_plugin("conform", "https://github.com/stevearc/conform.nvim")
 add_plugin("todo-comments", "https://github.com/folke/todo-comments.nvim")
 vim.cmd("packl!")
 vim.cmd("colorscheme tokyonight-night")
+local group = vim.api.nvim_create_augroup("vimrc-treesitter", {clear = true})
+local function _10_(args)
+  _G.assert((nil ~= args), "Missing argument args on C:\\Users\\TAABAROY\\AppData\\Local\\nvim\\lua\\config\\plugins.fnl:79")
+  require("nvim-treesitter.parsers").odin["install_info"] = {url = "https://github.com/RoBaertschi/tree-sitter-odin", branch = "master"}
+  require("nvim-treesitter.parsers")["sjson"] = {install_info = {url = "https://github.com/RoBaertschi/tree-sitter-sjson", revision = "c9b7e606de8ec376a4641e7db1ca5722d5afff2d"}, maintainers = {"@RoBaertschi"}, tier = 2}
+  return nil
+end
+vim.api.nvim_create_autocmd("User", {pattern = "TSUpdate", group = group, callback = _10_})
 local nvim_treesitter = require("nvim-treesitter")
 nvim_treesitter.setup({})
 vim.cmd("TSUpdate")
@@ -104,20 +112,13 @@ do
   end
   nvim_treesitter.install(install)
 end
-local group = vim.api.nvim_create_augroup("vimrc-treesitter", {clear = true})
-local function _12_(args)
-  _G.assert((nil ~= args), "Missing argument args on /home/robin/.config/nvim/lua/config/plugins.fnl:98")
-  require("nvim-treesitter.parsers")["odin"] = {install_info = {url = "https://github.com/RoBaertschi/tree-sitter-odin", branch = "master"}}
-  return nil
-end
-vim.api.nvim_create_autocmd("User", {pattern = "TSUpdate", group = group, callback = _12_})
 local function _13_(args)
-  _G.assert((nil ~= args), "Missing argument args on /home/robin/.config/nvim/lua/config/plugins.fnl:114")
+  _G.assert((nil ~= args), "Missing argument args on C:\\Users\\TAABAROY\\AppData\\Local\\nvim\\lua\\config\\plugins.fnl:121")
   do
     local attach
     local function _14_(buf, language)
-      _G.assert((nil ~= language), "Missing argument language on /home/robin/.config/nvim/lua/config/plugins.fnl:117")
-      _G.assert((nil ~= buf), "Missing argument buf on /home/robin/.config/nvim/lua/config/plugins.fnl:117")
+      _G.assert((nil ~= language), "Missing argument language on C:\\Users\\TAABAROY\\AppData\\Local\\nvim\\lua\\config\\plugins.fnl:124")
+      _G.assert((nil ~= buf), "Missing argument buf on C:\\Users\\TAABAROY\\AppData\\Local\\nvim\\lua\\config\\plugins.fnl:124")
       if not vim.treesitter.language.add(language) then
         return false
       else
@@ -134,7 +135,7 @@ local function _13_(args)
     end
     attach = _14_
     local language = vim.treesitter.language.get_lang(args.match)
-    if (language and (language ~= "odin")) then
+    if (language and true) then
       if not attach(args.buf, language) then
         local installing = require("nvim-treesitter.install").install(language)
         local function _16_()
@@ -170,7 +171,7 @@ end
 statusline["section_location"] = _20_
 require("oil").setup({})
 local function _21_(bufnr)
-  _G.assert((nil ~= bufnr), "Missing argument bufnr on /home/robin/.config/nvim/lua/config/plugins.fnl:183")
+  _G.assert((nil ~= bufnr), "Missing argument bufnr on C:\\Users\\TAABAROY\\AppData\\Local\\nvim\\lua\\config\\plugins.fnl:191")
   local disable_filetype = {c = true, cpp = true}
   if disable_filetype[vim.bo[bufnr].filetype] then
     return nil

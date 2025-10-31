@@ -84,6 +84,13 @@ l
   (vim.schedule (lambda []
                   (vim.notify message level))))
 
+(vim.filetype.add
+  {
+   :extension {
+    :sjson :sjson
+   }
+  })
+
 ; Setup autocmd
 
 (local group (va.nvim_create_augroup "vimrc" { :clear true }))
