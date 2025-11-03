@@ -221,9 +221,10 @@
   "."
   (identifier) @constant)
 
-(enum_declaration
-  "{"
-  (identifier) @constant)
+; NOTE: We do not need this
+; (enum_declaration
+;   "{"
+;   (identifier) @constant)
 
 ; Macros
 ((call_expression

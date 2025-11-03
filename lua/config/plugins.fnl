@@ -63,10 +63,11 @@
 (add-plugin :blink.cmp "https://github.com/saghen/blink.cmp" :v1.7.0)
 (add-plugin :conform "https://github.com/stevearc/conform.nvim")
 (add-plugin :todo-comments "https://github.com/folke/todo-comments.nvim")
+(add-plugin :rivial "https://github.com/robaertschi/rivial")
 
 (vim.cmd "packl!")
 
-(vim.cmd "colorscheme tokyonight-night")
+(vim.cmd "colorscheme rivial")
 
 
 (local group (vim.api.nvim_create_augroup "vimrc-treesitter" { :clear true }))
