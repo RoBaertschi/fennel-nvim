@@ -214,7 +214,7 @@
 ; Constants
 ((identifier) @constant
   (#lua-match? @constant "^_*[A-Z][A-Z0-9_]*$")
-  (#not-has-parent? @constant type parameter))
+  (#not-has-parent? @constant type parameter call_expression))
 
 (member_expression
   .
@@ -227,9 +227,11 @@
 ;   (identifier) @constant)
 
 ; Macros
-((call_expression
-  function: (identifier) @function.macro)
-  (#lua-match? @function.macro "^_*[A-Z][A-Z0-9_]*$"))
+; NOTE: What the hell are macros exactly!?
+; ((call_expression
+;   function: (identifier) @function.macro)
+;   (#lua-match? @function.macro "^_*[A-Z][A-Z0-9_]*$")
+;   (#set! priority 105))
 
 ; Attributes
 (attribute
