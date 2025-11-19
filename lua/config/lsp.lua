@@ -61,7 +61,7 @@ local function _2_(ev)
 end
 vim.api.nvim_create_autocmd("LspAttach", {group = vim.api.nvim_create_augroup("vimrc-lsp-attach", {clear = true}), callback = _2_})
 vim.lsp.config("*", {capabilities = require("blink.cmp").get_lsp_capabilities({}, false)})
-local lsps = {"lua_ls", "rust_analyzer", "ts_ls", "fennel_ls"}
+local lsps = {"lua_ls", "rust_analyzer", "ts_ls", "fennel_ls", "clangd"}
 for _, lsp in ipairs(lsps) do
   vim.lsp.enable(lsp)
 end
@@ -70,5 +70,5 @@ do
   local gen_loader = mini_snippets.gen_loader
   mini_snippets.setup({snippets = {gen_loader.from_file((config .. "/snippets/global.json")), gen_loader.from_lang()}})
 end
-require("blink.cmp").setup({keymap = {preset = "default"}, appearance = {nerd_font_variant = "mono", documentation = {auto_show = true, auto_show_delay_ms = 500}, sources = {default = {"lsp", "buffer", "path", "snippets"}}, snippets = {preset = "mini_snippets"}, fuzzy = {implementation = "prefer_rust_with_warning"}, signature = {enabled = true}}})
+require("blink.cmp").setup({keymap = {preset = "default"}, appearance = {nerd_font_variant = "mono"}, completion = {documentation = {auto_show = true, auto_show_delay_ms = 500}}, sources = {default = {"lsp", "buffer", "path", "snippets"}}, snippets = {preset = "mini_snippets"}, fuzzy = {implementation = "prefer_rust_with_warning"}, signature = {enabled = true}})
 return nil

@@ -184,7 +184,14 @@
 (tset statusline :section_location (lambda [] "%2l:%-2v"))
 
 ; oil
-((. (require :oil) :setup) {})
+((. (require :oil) :setup) {
+                            :buf_options {
+                             :buflisted true
+                            }
+                            :view_options {
+                             :show_hidden true
+                            }
+                           })
 
 ; conform.nvim
 ((. (require :conform) :setup) {:notify_on_error false

@@ -20,7 +20,7 @@ vo["relativenumber"] = true
 vo["mouse"] = "a"
 vo["showmode"] = true
 if (vim.fn.has("linux") ~= 0) then
-  vg["clipboard"] = "osc52"
+  vg["clipboard"] = "wl-copy"
 else
 end
 local function _3_()

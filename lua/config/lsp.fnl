@@ -103,7 +103,7 @@
   {
   :capabilities ((. (require :blink.cmp) :get_lsp_capabilities) {} false)
   })
-(local lsps ["lua_ls" "rust_analyzer" "ts_ls" "fennel_ls"])
+(local lsps ["lua_ls" "rust_analyzer" "ts_ls" "fennel_ls" "clangd"])
 
 (each [_ lsp (ipairs lsps)]
   (vim.lsp.enable lsp))
@@ -135,9 +135,12 @@
   }
   :appearance {
    :nerd_font_variant :mono
-  :documentation {
-   :auto_show true
-   :auto_show_delay_ms 500
+  }
+  :completion {
+   :documentation {
+    :auto_show true
+    :auto_show_delay_ms 500
+   }
   }
   :sources {
    :default [:lsp :buffer :path :snippets]
@@ -150,7 +153,7 @@
   }
   :signature {
    :enabled true
-  }
+  
   }
  })
 
