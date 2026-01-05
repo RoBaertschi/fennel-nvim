@@ -51,7 +51,6 @@
 (add-plugin :which-key "https://github.com/folke/which-key.nvim")
 (add-plugin :mason "https://github.com/mason-org/mason.nvim")
 (add-plugin :lsp-config "https://github.com/neovim/nvim-lspconfig")
-(add-plugin :oil "https://github.com/stevearc/oil.nvim")
 
 ; telescope
 (add-plugin :plenary "https://github.com/nvim-lua/plenary.nvim")
@@ -177,21 +176,18 @@
 
 ; mini
 
+((. (require :mini.files) :setup)
+ {
+ :windows {
+  :preview true
+ }
+ })
 ((. (require :mini.ai) :setup) { :n_lines 500 })
 ((. (require :mini.surround) :setup) {})
 (local statusline (require :mini.statusline))
 (statusline.setup { :use_icons true })
 (tset statusline :section_location (lambda [] "%2l:%-2v"))
 
-; oil
-((. (require :oil) :setup) {
-                            :buf_options {
-                             :buflisted true
-                            }
-                            :view_options {
-                             :show_hidden true
-                            }
-                           })
 
 ; conform.nvim
 ((. (require :conform) :setup) {:notify_on_error false

@@ -1,7 +1,9 @@
+(local utils (require :config.utils))
+
 ((. (require :which-key) :add) [
 	{ 1 "<leader>s" :group "[S]earch" }
 	{ 1 "<leader>g" :group  "[G]oto" }
-	{ 1 "<leader>c" :group  "[C]ode" }
+	{ 1 "<leader>c" :group  "[C]onfig" }
 	{ 1 "<leader>t" :group  "[T]oggle" }
 	{ 1 "<leader>d" :group  "[D]ocument" }
 	{ 1 "<leader>w" :group  "[W]orkspace" }
@@ -9,28 +11,29 @@
 ])
 
 (local builtin (require :telescope.builtin))
+(local kset vim.keymap.set)
 
-(vim.keymap.set "n" "<leader>sf" builtin.find_files { :desc "[S]earch [F]iles" })
-(vim.keymap.set "n" "<leader>sg" builtin.live_grep { :desc "[S]earch [G]rep" })
-(vim.keymap.set "n" "<leader>sb" builtin.buffers { :desc "[S]earch [B]uffers" })
-(vim.keymap.set "n" "<leader>sh" builtin.help_tags { :desc "[S]earch [H]elp Tags" })
-(vim.keymap.set "n" "<leader>sr" builtin.resume { :desc "[S]earch [R]esume" })
-(vim.keymap.set "n" "<leader>sn" (lambda []
+(kset "n" "<leader>sf" builtin.find_files { :desc "[S]earch [F]iles" })
+(kset "n" "<leader>sg" builtin.live_grep { :desc "[S]earch [G]rep" })
+(kset "n" "<leader>sb" builtin.buffers { :desc "[S]earch [B]uffers" })
+(kset "n" "<leader>sh" builtin.help_tags { :desc "[S]earch [H]elp Tags" })
+(kset "n" "<leader>sr" builtin.resume { :desc "[S]earch [R]esume" })
+(kset "n" "<leader>sn" (lambda []
 	(builtin.find_files { :cwd (vim.fn.stdpath "config") })
 ) { :desc "[S]earch [N]eovim files" })
-(vim.keymap.set "n" "<leader>ss" builtin.lsp_document_symbols { :desc "[S]earch Document [S]ymbols" })
+(kset "n" "<leader>ss" builtin.lsp_document_symbols { :desc "[S]earch Document [S]ymbols" })
 
-(vim.keymap.set "n" "<Esc>" "<cmd>nohlsearch<CR>")
-(vim.keymap.set "n" "<leader>q" vim.diagnostic.setloclist { :desc "Open diagnostic [Q]uickfix list" })
-(vim.keymap.set "t" "<Esc><Esc>" "<C-\\><C-n>" { :desc "Exit terminal mode" })
+(kset "n" "<Esc>" "<cmd>nohlsearch<CR>")
+(kset "n" "<leader>q" vim.diagnostic.setloclist { :desc "Open diagnostic [Q]uickfix list" })
+(kset "t" "<Esc><Esc>" "<C-\\><C-n>" { :desc "Exit terminal mode" })
 
 (case (io.popen "odin root" "r")
   file (let [odin_root (file:read "*a")]
          (file:close)
-            (vim.keymap.set "n" "<leader>sof" (lambda []
+            (kset "n" "<leader>sof" (lambda []
                 (builtin.find_files { :cwd odin_root :prompt_title "Search Odin Files" })
             ) { :desc "[S]earch [O]din [F]iles" })
-            (vim.keymap.set "n" "<leader>sog" (lambda []
+            (kset "n" "<leader>sog" (lambda []
                 (builtin.live_grep { :cwd odin_root :prompt_title "Grep Odin Files" })
             ) { :desc "[S]earch [O]din [G]rep" })
          )
@@ -39,17 +42,12 @@
 (local loop (or vim.uv vim.loop))
 (if (loop.fs_stat "/usr/src/linux")
     ((lambda []
-      (vim.keymap.set "n" "<leader>slf" (lambda []
+      (kset "n" "<leader>slf" (lambda []
                                           (builtin.find_files { :cwd "/usr/src/linux/" :prompt_title "Search Linux Files" }))
                       { :desc "[S]earch [L]inux [F]iles" })
-      (vim.keymap.set "n" "<leader>slg" (lambda []
+      (kset "n" "<leader>slg" (lambda []
                                           (builtin.live_grep { :cwd "/usr/src/linux/" :prompt_title "Grep Linux Files" }))
                       { :desc "[S]earch [L]inux [G]rep" }))))
-
-; vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
-; vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
-; vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
-; vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
 (vim.api.nvim_create_user_command
   "OverseerRestartLast"
@@ -63,12 +61,16 @@
     )
   {})
 
-(vim.keymap.set "n" "<leader>or" "<ESC>:OverseerRun<CR>" { :desc "[O]verseer [R]un" })
-(vim.keymap.set "n" "<leader>orl" "<ESC>:OverseerRestartLast<CR>" { :desc "[O]verseer [R]un [L]ast" })
-(vim.keymap.set "n" "<leader>b" "<ESC>:OverseerRestartLast<CR>" { :desc "Overseer Run Last" })
+(kset "n" "<leader>or" "<ESC>:OverseerRun<CR>" { :desc "[O]verseer [R]un" })
+(kset "n" "<leader>orl" "<ESC>:OverseerRestartLast<CR>" { :desc "[O]verseer [R]un [L]ast" })
+(kset "n" "<leader>b" "<ESC>:OverseerRestartLast<CR>" { :desc "Overseer Run Last" })
 
-(local vks vim.keymap.set)
-(vks "n" "<leader>cs" (lambda [] (set package.loaded nil) (vim.cmd (.. "source " (..
+(kset "n" "<leader>cs" (lambda [] (set package.loaded nil) (vim.cmd (.. "source " (..
                                    (vim.fn.stdpath "config") "/init.lua")))) { :desc "[C]onfig [S]ource" })
+(kset "n" "<leader><leader>" "source" { :desc "Source current file." })
+(kset "n" "<leader>cfs" (lambda []
+                          (let [name (vim.api.nvim_buf_get_name 0)]
+                            (let [lua-name (utils.change-extension name :lua)]
+                              (vim.cmd (.. "source " lua-name))))) { :desc "[C]onfig [F]ile [S]ource" })
 
 nil

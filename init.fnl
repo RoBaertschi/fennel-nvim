@@ -1,16 +1,11 @@
+(local utils (require :config.utils))
+
 (local vo (. vim :opt))
 (local vg (. vim :g))
 (local va (. vim :api))
 (local sysname (. (vim.loop.os_uname) :sysname))
 (local windows (= sysname "Windows_NT"))
 (local config-path (vim.fn.stdpath "config"))
-
-(fn change-extension [file-path new-ext]
-  (let [pattern "%.%w+$"]
-    (if (file-path:match pattern)
-        (file-path:gsub pattern (.. "." new-ext))
-        (.. file-path new-ext)
-        )))
 
 (tset vg :mapleader " ")
 (tset vg :maplocalleader " ")
@@ -114,7 +109,7 @@ l
                       (when completed
                         (if
                           (= completed.code 0)
-                          (let [new-file (change-extension file-name "lua")]
+                          (let [new-file (utils.change-extension file-name "lua")]
                             (case (io.open new-file "w+")
                               file (do
                                   (file:write completed.stdout)

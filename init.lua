@@ -1,17 +1,10 @@
+local utils = require("config.utils")
 local vo = vim.opt
 local vg = vim.g
 local va = vim.api
 local sysname = vim.loop.os_uname().sysname
 local windows = (sysname == "Windows_NT")
 local config_path = vim.fn.stdpath("config")
-local function change_extension(file_path, new_ext)
-  local pattern = "%.%w+$"
-  if file_path:match(pattern) then
-    return file_path:gsub(pattern, ("." .. new_ext))
-  else
-    return (file_path .. new_ext)
-  end
-end
 vg["mapleader"] = " "
 vg["maplocalleader"] = " "
 vg["have_nerd_font"] = true
@@ -23,11 +16,11 @@ if (vim.fn.has("linux") ~= 0) then
   vg["clipboard"] = "wl-copy"
 else
 end
-local function _3_()
+local function _2_()
   vo["clipboard"] = "unnamedplus"
   return nil
 end
-vim.schedule(_3_)
+vim.schedule(_2_)
 vo["breakindent"] = true
 vo["undofile"] = true
 vo["ignorecase"] = true
@@ -53,33 +46,33 @@ if vg.neovide then
 else
 end
 local function schedule_notify(message, level_3f)
-  local function _5_()
+  local function _4_()
     return vim.notify(message, level)
   end
-  return vim.schedule(_5_)
+  return vim.schedule(_4_)
 end
 vim.filetype.add({extension = {sjson = "sjson"}})
 local group = va.nvim_create_augroup("vimrc", {clear = true})
 local function fnl_buf_write_post(ev)
   local file_name = tostring(va.nvim_buf_get_name(ev.buf))
-  local _6_
+  local _5_
   if windows then
-    _6_ = (config_path .. "\\bin\\fennel.exe")
+    _5_ = (config_path .. "\\bin\\fennel.exe")
   else
-    _6_ = (config_path .. "/bin/fennel")
+    _5_ = (config_path .. "/bin/fennel")
   end
   local function fennel_compile_on_exit_command(completed)
     if completed then
       if (completed.code == 0) then
-        local new_file = change_extension(file_name, "lua")
-        local _8_, _9_ = io.open(new_file, "w+")
-        if (nil ~= _8_) then
-          local file = _8_
+        local new_file = utils["change-extension"](file_name, "lua")
+        local _7_, _8_ = io.open(new_file, "w+")
+        if (nil ~= _7_) then
+          local file = _7_
           file:write(completed.stdout)
           file:close()
           schedule_notify(((("Compiled " .. file_name) .. " to ") .. new_file))
-        elseif ((_8_ == nil) and (nil ~= _9_)) then
-          local err_msg = _9_
+        elseif ((_7_ == nil) and (nil ~= _8_)) then
+          local err_msg = _8_
           schedule_notify(((("Could not open file " .. new_file) .. ": ") .. err_msg))
         else
         end
@@ -90,7 +83,7 @@ local function fnl_buf_write_post(ev)
     end
     return nil
   end
-  vim.system({_6_, "--compile", file_name}, {text = true}, fennel_compile_on_exit_command)
+  vim.system({_5_, "--compile", file_name}, {text = true}, fennel_compile_on_exit_command)
   return nil
 end
 va.nvim_create_autocmd({"BufWritePost"}, {group = group, pattern = {"*.fnl"}, callback = fnl_buf_write_post})
