@@ -7,22 +7,25 @@
     (client.supports_method method { :bufnr ?bufnr })
     ))
 
+(fn lsp-picker [scope]
+  (lambda [] (MiniExtra.pickers.lsp { : scope })))
+
 (vim.api.nvim_create_autocmd
   "LspAttach"
   {
     :group (vim.api.nvim_create_augroup "vimrc-lsp-attach" { :clear true })
     :callback
     (lambda [ev]
-      (let [map (fn map [keys func desc ?mode] (vim.keymap.set (or ?mode "n") keys func { :buffer ev.buf :desc (.. "LSP: " desc) }))]
+      (let [map (lambda [keys func desc ?mode] (vim.keymap.set (or ?mode "n") keys func { :buffer ev.buf :desc (.. "LSP: " desc) }))]
         (map :grn vim.lsp.buf.rename "[R]e[n]ame")
         (map :gra vim.lsp.buf.code_action "[C]ode [A]ction" [ :n :x ])
-        (map :grr (. (require :telescope.builtin) :lsp_references) "[G]oto [R]eferences")
-        (map :gri (. (require :telescope.builtin) :lsp_implementations) "[G]oto [I]mplementation")
-        (map :grd (. (require :telescope.builtin) :lsp_definitions) "[G]oto [D]efinition")
+        (map :grr (lsp-picker "references") "[G]oto [R]eferences")
+        (map :gri (lsp-picker "implementation") "[G]oto [I]mplementation")
+        (map :grd (lsp-picker "definition") "[G]oto [D]efinition")
         (map :grD vim.lsp.buf.declaration "[G]oto [D]eclaration")
-        (map :gO (. (require "telescope.builtin") :lsp_document_symbols) "[D]ocument [S]ymbols")
-        (map :gW (. (require "telescope.builtin") :lsp_dynamic_workspace_symbols) "[W]orkspace [S]ymbols")
-        (map :grt (. (require "telescope.builtin") :lsp_type_definitions) "Type [D]efinition")
+        (map :gO (lsp-picker "document_symbol") "[D]ocument [S]ymbols")
+        (map :gW (lsp-picker "workspace_symbol") "[W]orkspace [S]ymbols")
+        (map :grt (lsp-picker "type_definition") "Type [D]efinition")
         (let [client (vim.lsp.get_client_by_id ev.data.client_id)]
          (when (and client (client-supports-method client vim.lsp.protocol.Methods.textDocument_documentHighlight ev.buf))
            (let [highlight_augroup (vim.api.nvim_create_augroup :vimrc-lsp-highlight { :clear false })]
@@ -60,7 +63,6 @@
            (vim.api.nvim_create_autocmd
              "BufWritePre"
              {
-             : group
              :buffer ev.buf
              :callback
              (lambda [ev]

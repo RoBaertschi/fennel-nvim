@@ -73,9 +73,9 @@ add_plugin("mason", "https://github.com/mason-org/mason.nvim")
 add_plugin("lsp-config", "https://github.com/neovim/nvim-lspconfig")
 add_plugin("plenary", "https://github.com/nvim-lua/plenary.nvim")
 add_plugin("nvim-web-devicons", "https://github.com/nvim-tree/nvim-web-devicons")
-add_plugin("telescope-ui-select", "https://github.com/nvim-telescope/telescope-ui-select.nvim")
 add_plugin("telescope", "https://github.com/nvim-telescope/telescope.nvim")
 add_plugin("mini", "https://github.com/echasnovski/mini.nvim")
+add_plugin("harpoon", "https://github.com/ThePrimeagen/harpoon", "harpoon2")
 add_plugin("blink.cmp", "https://github.com/saghen/blink.cmp", "v1.7.0")
 add_plugin("conform", "https://github.com/stevearc/conform.nvim")
 add_plugin("todo-comments", "https://github.com/folke/todo-comments.nvim")
@@ -123,13 +123,13 @@ local function _13_(args)
         return false
       else
         vim.treesitter.start(buf, language)
-        vim.bo["indentexpr"] = "v:lua.require('nvim-treesitter').indentexpr()"
-        vim.wo["foldtext"] = "v:lua.require('nvim-treesitter').foldtext()"
-        vim.wo["foldmethod"] = "expr"
-        vim.wo["foldexpr"] = "v:lua.require('nvim-treesitter').foldexpr()"
-        vim.wo["foldlevel"] = 99
-        vim.opt["foldlevelstart"] = -1
-        vim.opt["foldnestmax"] = 99
+        vim.bo.indentexpr = "v:lua.require('nvim-treesitter').indentexpr()"
+        vim.wo.foldtext = "v:lua.require('nvim-treesitter').foldtext()"
+        vim.wo.foldmethod = "expr"
+        vim.wo.foldexpr = "v:lua.require('nvim-treesitter').foldexpr()"
+        vim.wo.foldlevel = 99
+        vim.opt.foldlevelstart = -1
+        vim.opt.foldnestmax = 99
         return true
       end
     end
@@ -158,10 +158,16 @@ end
 vim.keymap.set("n", "<leader>?", _19_)
 local telescope = require("telescope")
 telescope.setup({extensions = {["ui-select"] = {require("telescope.themes").get_dropdown()}}, defaults = {file_ignore_patterns = {}}})
-telescope.load_extension("ui-select")
 local mason = require("mason")
 mason.setup({})
+local mini_pick = require("mini.pick")
+mini_pick.setup()
+local harpoon = require("harpoon")
+harpoon:setup()
+require("mini.pick").setup()
+require("mini.extra").setup()
 require("mini.files").setup({windows = {preview = true}})
+require("mini.align").setup({})
 require("mini.ai").setup({n_lines = 500})
 require("mini.surround").setup({})
 local statusline = require("mini.statusline")
@@ -171,7 +177,7 @@ local function _20_()
 end
 statusline["section_location"] = _20_
 local function _21_(bufnr)
-  _G.assert((nil ~= bufnr), "Missing argument bufnr on /home/robin/.config/nvim/lua/config/plugins.fnl:195")
+  _G.assert((nil ~= bufnr), "Missing argument bufnr on /home/robin/.config/nvim/lua/config/plugins.fnl:203")
   local disable_filetype = {c = true, cpp = true}
   if disable_filetype[vim.bo[bufnr].filetype] then
     return nil

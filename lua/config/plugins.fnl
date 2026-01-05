@@ -55,10 +55,10 @@
 ; telescope
 (add-plugin :plenary "https://github.com/nvim-lua/plenary.nvim")
 (add-plugin :nvim-web-devicons "https://github.com/nvim-tree/nvim-web-devicons")
-(add-plugin :telescope-ui-select "https://github.com/nvim-telescope/telescope-ui-select.nvim")
 (add-plugin :telescope "https://github.com/nvim-telescope/telescope.nvim")
 
 (add-plugin :mini "https://github.com/echasnovski/mini.nvim")
+(add-plugin :harpoon "https://github.com/ThePrimeagen/harpoon" :harpoon2)
 (add-plugin :blink.cmp "https://github.com/saghen/blink.cmp" :v1.7.0)
 (add-plugin :conform "https://github.com/stevearc/conform.nvim")
 (add-plugin :todo-comments "https://github.com/folke/todo-comments.nvim")
@@ -127,13 +127,13 @@
                                false
                                (let []
                                  (vim.treesitter.start buf language)
-                                 (tset vim.bo :indentexpr "v:lua.require('nvim-treesitter').indentexpr()")
-                                 (tset vim.wo :foldtext "v:lua.require('nvim-treesitter').foldtext()")
-                                 (tset vim.wo :foldmethod "expr")
-                                 (tset vim.wo :foldexpr "v:lua.require('nvim-treesitter').foldexpr()")
-                                 (tset vim.wo :foldlevel 99)
-                                 (tset vim.opt :foldlevelstart -1)
-                                 (tset vim.opt :foldnestmax 99)
+                                 (set vim.bo.indentexpr "v:lua.require('nvim-treesitter').indentexpr()")
+                                 (set vim.wo.foldtext "v:lua.require('nvim-treesitter').foldtext()")
+                                 (set vim.wo.foldmethod "expr")
+                                 (set vim.wo.foldexpr "v:lua.require('nvim-treesitter').foldexpr()")
+                                 (set vim.wo.foldlevel 99)
+                                 (set vim.opt.foldlevelstart -1)
+                                 (set vim.opt.foldnestmax 99)
                                  true
                                )
                              ))
@@ -168,20 +168,28 @@
                  }
                  })
 
-(telescope.load_extension :ui-select)
-
 ; Mason
 (local mason (require :mason))
 (mason.setup {})
 
-; mini
+; mini.pick
+(local mini-pick (require :mini.pick))
+(mini-pick.setup)
 
+; harpoon
+(local harpoon (require :harpoon))
+(harpoon:setup)
+
+; mini
+((. (require :mini.pick) :setup))
+((. (require :mini.extra) :setup))
 ((. (require :mini.files) :setup)
  {
  :windows {
   :preview true
  }
  })
+((. (require :mini.align) :setup) {})
 ((. (require :mini.ai) :setup) { :n_lines 500 })
 ((. (require :mini.surround) :setup) {})
 (local statusline (require :mini.statusline))
