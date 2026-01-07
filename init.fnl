@@ -7,77 +7,93 @@
 (local windows (= sysname "Windows_NT"))
 (local config-path (vim.fn.stdpath "config"))
 
-(tset vg :mapleader " ")
-(tset vg :maplocalleader " ")
+(set vg.mapleader " ")
+(set vg.maplocalleader " ")
 
-(tset vg :have_nerd_font true)
+(set vg.have_nerd_font true)
 
-(tset vo :number true)
-(tset vo :relativenumber true)
+(set vo.number true)
+(set vo.relativenumber true)
 
-(tset vo :mouse "a")
+(set vo.mouse "a")
 
-(tset vo :showmode true) ; maybe disable this at some point
+(set vo.showmode true) ; maybe disable this at some point
+
 
 ; Fix clipboard flicker on terminals that support osc52 (ansi terminal paste controls)
-(if (~= (vim.fn.has :linux) 0) (tset vg :clipboard :wl-copy))
+(if (~= (vim.fn.has :linux) 0) (set vg.clipboard "wl-copy"))
 
-(vim.schedule (lambda [] (tset vo :clipboard "unnamedplus")))
+(vim.schedule (lambda [] (set vo.clipboard "unnamedplus")))
 
-(tset vo :breakindent true)
+(set vo.breakindent true)
 
 ; Save undo history
-(tset vo :undofile true)
+(set vo.undofile true)
 
 ; Case-insensitive searching UNLESS \C or one or more capital letters in the search term
-(tset vo :ignorecase true)
-(tset vo :smartcase true)
-l
+(set vo.ignorecase true)
+(set vo.smartcase true)
+
 ; Keep signcolumn on by default
-(tset vo :signcolumn "yes")
+(set vo.signcolumn "yes")
 
 ; Decrease update time
-(tset vo :updatetime 250)
+(set vo.updatetime 250)
 
 ; Decrease mapped sequence wait time
 ; Displays which-key popup sooner
-(tset vo :timeoutlen 300)
+(set vo.timeoutlen 300)
 
 ; Configure how new splits should be opened
-(tset vo :splitright true)
-(tset vo :splitbelow true)
+(set vo.splitright true)
+(set vo.splitbelow true)
 
 ; Sets how neovim will display certain whitespace characters in the editor.
 ;  See `:help 'list'`
 ;  and `:help 'listchars'`
-(tset vo :list true)
-(tset vo :listchars { :tab "» " :trail "·" :nbsp "␣" })
+(set vo.list true)
+(set vo.listchars {:nbsp "␣" :tab "» " :trail "·"})
 
 ; Preview substitutions live, as you type!
-(tset vo :inccommand "split")
+(set vo.inccommand "split")
+
+; Allos block edits to go past new lines
+(set vo.virtualedit "block")
 
 ; Show which line your cursor is on
-(tset vo :cursorline true)
+(set vo.cursorline true)
 
 ; Minimal number of screen lines to keep above and below the cursor.
-(tset vo :scrolloff 10)
+(set vo.scrolloff 10)
 
-; (tset vg :c_syntax_for_h 1)
+(set vg.c_syntax_for_h 1)
 
-(tset vo :tabstop 4)
-(tset vo :softtabstop 4)
-(tset vo :shiftwidth 4)
-(tset vo :expandtab true)
+(set vo.tabstop 4)
+(set vo.softtabstop 4)
+(set vo.shiftwidth 4)
+(set vo.expandtab true)
+(set vo.formatoptions "rqnl1j")
 
-(tset vo :termguicolors true)
+(set vo.termguicolors true)
 
-(tset vo :guifont "JetBrainsMono NF")
+(set vo.guifont "JetBrainsMono NF")
 
-(when (. vg :neovide) (tset vg :neovide_cursor_animation_length 0))
+(when (. vg :neovide) (set vg.neovide_cursor_animation_length 0))
 
 (fn schedule-notify [message level?]
   (vim.schedule (lambda []
-                  (vim.notify message level))))
+                  (vim.notify message level?))))
+
+(local gr (vim.api.nvim_create_augroup "vimrc-default-group" {}))
+(vim.api.nvim_create_autocmd "FileType" {
+                              :group gr
+                              :pattern nil
+                              :callback (lambda []
+                                          (vim.cmd
+                                            "setlocal formatoptions-=c formatoptions-=o")
+                                          nil)
+                              :desc "Proper 'formatoptions'"
+                             })
 
 (vim.filetype.add
   {

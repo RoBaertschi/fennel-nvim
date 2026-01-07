@@ -4,16 +4,21 @@
     { 1 "<leader>s" :group "[S]earch" }
     { 1 "<leader>g" :group "[G]oto" }
     { 1 "<leader>c" :group "[C]onfig" }
-    { 1 "<leader>t" :group "[T]oggle" }
     { 1 "<leader>d" :group "[D]ocument" }
     { 1 "<leader>w" :group "[W]orkspace" }
     { 1 "<leader>o" :group "[O]verseer" }
     { 1 "<leader>p" :group "[P]roject" }
+    { 1 "<leader>t" :group "[T]erminal" }
 ])
 
 ; (local builtin (require :telescope.builtin))
 (local builtin MiniPick.builtin)
 (local kset vim.keymap.set)
+
+; terminal
+(kset "n" "<leader>tt" (lambda [] (vim.cmd "tab term")) { :desc "Open new [T]erminal in [T]ab" })
+
+; search
 
 (kset "n" "<leader>sf" (lambda [] (builtin.files)) { :desc "[S]earch [F]iles" })
 (kset "n" "<leader>sg" (lambda [] (builtin.grep_live)) { :desc "[S]earch [G]rep" })

@@ -66,7 +66,7 @@
 
 (vim.cmd "packl!")
 
-(vim.cmd "colorscheme rivial")
+(vim.cmd "colorscheme tokyonight-night")
 
 
 (local group (vim.api.nvim_create_augroup "vimrc-treesitter" { :clear true }))
