@@ -11,7 +11,7 @@ vg.have_nerd_font = true
 vo.number = true
 vo.relativenumber = true
 vo.mouse = "a"
-vo.showmode = true
+vo.showmode = false
 if (vim.fn.has("linux") ~= 0) then
   vg.clipboard = "wl-copy"
 else

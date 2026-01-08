@@ -71,10 +71,8 @@ add_plugin("nvim-treesitter", "https://github.com/nvim-treesitter/nvim-treesitte
 add_plugin("which-key", "https://github.com/folke/which-key.nvim")
 add_plugin("mason", "https://github.com/mason-org/mason.nvim")
 add_plugin("lsp-config", "https://github.com/neovim/nvim-lspconfig")
-add_plugin("plenary", "https://github.com/nvim-lua/plenary.nvim")
-add_plugin("nvim-web-devicons", "https://github.com/nvim-tree/nvim-web-devicons")
-add_plugin("telescope", "https://github.com/nvim-telescope/telescope.nvim")
 add_plugin("mini", "https://github.com/echasnovski/mini.nvim")
+add_plugin("plenary", "https://github.com/nvim-lua/plenary.nvim")
 add_plugin("harpoon", "https://github.com/ThePrimeagen/harpoon", "harpoon2")
 add_plugin("blink.cmp", "https://github.com/saghen/blink.cmp", "v1.7.0")
 add_plugin("conform", "https://github.com/stevearc/conform.nvim")
@@ -84,7 +82,7 @@ vim.cmd("packl!")
 vim.cmd("colorscheme tokyonight-night")
 local group = vim.api.nvim_create_augroup("vimrc-treesitter", {clear = true})
 local function _10_(args)
-  _G.assert((nil ~= args), "Missing argument args on /home/robin/.config/nvim/lua/config/plugins.fnl:79")
+  _G.assert((nil ~= args), "Missing argument args on /home/robin/.config/nvim/lua/config/plugins.fnl:74")
   require("nvim-treesitter.parsers").odin["install_info"] = {url = "https://github.com/RoBaertschi/tree-sitter-odin", branch = "master"}
   require("nvim-treesitter.parsers")["sjson"] = {install_info = {url = "https://github.com/RoBaertschi/tree-sitter-sjson", revision = "c9b7e606de8ec376a4641e7db1ca5722d5afff2d"}, maintainers = {"@RoBaertschi"}, tier = 2}
   return nil
@@ -113,12 +111,12 @@ do
   nvim_treesitter.install(install)
 end
 local function _13_(args)
-  _G.assert((nil ~= args), "Missing argument args on /home/robin/.config/nvim/lua/config/plugins.fnl:121")
+  _G.assert((nil ~= args), "Missing argument args on /home/robin/.config/nvim/lua/config/plugins.fnl:116")
   do
     local attach
     local function _14_(buf, language)
-      _G.assert((nil ~= language), "Missing argument language on /home/robin/.config/nvim/lua/config/plugins.fnl:124")
-      _G.assert((nil ~= buf), "Missing argument buf on /home/robin/.config/nvim/lua/config/plugins.fnl:124")
+      _G.assert((nil ~= language), "Missing argument language on /home/robin/.config/nvim/lua/config/plugins.fnl:119")
+      _G.assert((nil ~= buf), "Missing argument buf on /home/robin/.config/nvim/lua/config/plugins.fnl:119")
       if not vim.treesitter.language.add(language) then
         return false
       else
@@ -136,12 +134,20 @@ local function _13_(args)
     attach = _14_
     local language = vim.treesitter.language.get_lang(args.match)
     if (language and true) then
-      if not attach(args.buf, language) then
+      local and_16_ = not attach(args.buf, language)
+      if and_16_ then
+        local function _17_(item)
+          _G.assert((nil ~= item), "Missing argument item on /home/robin/.config/nvim/lua/config/plugins.fnl:142")
+          return (item == language)
+        end
+        and_16_ = vim.iter(require("nvim-treesitter").get_available()):any(_17_)
+      end
+      if and_16_ then
         local installing = require("nvim-treesitter.install").install(language)
-        local function _16_()
+        local function _18_()
           return attach(args.buf, language)
         end
-        installing:await(_16_)
+        installing:await(_18_)
       else
       end
     else
@@ -152,19 +158,17 @@ end
 vim.api.nvim_create_autocmd("FileType", {group = group, callback = _13_})
 local which_key = require("which-key")
 which_key.setup({})
-local function _19_()
+local function _21_()
   return which_key.show({global = false})
 end
-vim.keymap.set("n", "<leader>?", _19_)
-local telescope = require("telescope")
-telescope.setup({extensions = {["ui-select"] = {require("telescope.themes").get_dropdown()}}, defaults = {file_ignore_patterns = {}}})
+vim.keymap.set("n", "<leader>?", _21_)
 local mason = require("mason")
 mason.setup({})
+require("mini.icons").setup()
 local mini_pick = require("mini.pick")
 mini_pick.setup()
 local harpoon = require("harpoon")
 harpoon:setup()
-require("mini.pick").setup()
 require("mini.extra").setup()
 require("mini.files").setup({windows = {preview = true}})
 require("mini.align").setup({})
@@ -172,12 +176,12 @@ require("mini.ai").setup({n_lines = 500})
 require("mini.surround").setup({})
 local statusline = require("mini.statusline")
 statusline.setup({use_icons = true})
-local function _20_()
+local function _22_()
   return "%2l:%-2v"
 end
-statusline["section_location"] = _20_
-local function _21_(bufnr)
-  _G.assert((nil ~= bufnr), "Missing argument bufnr on /home/robin/.config/nvim/lua/config/plugins.fnl:203")
+statusline["section_location"] = _22_
+local function _23_(bufnr)
+  _G.assert((nil ~= bufnr), "Missing argument bufnr on /home/robin/.config/nvim/lua/config/plugins.fnl:189")
   local disable_filetype = {c = true, cpp = true}
   if disable_filetype[vim.bo[bufnr].filetype] then
     return nil
@@ -185,10 +189,10 @@ local function _21_(bufnr)
     return {timeout_ms = 500, lsp_format = "fallback"}
   end
 end
-require("conform").setup({format_on_save = _21_, formatters_by_ft = {lua = {"stylua"}}, notify_on_error = false})
-local function _23_()
+require("conform").setup({format_on_save = _23_, formatters_by_ft = {lua = {"stylua"}}, notify_on_error = false})
+local function _25_()
   return require("conform").format({async = true, lsp_format = "fallback"})
 end
-vim.keymap.set("n", "<leader>f", _23_)
+vim.keymap.set("n", "<leader>f", _25_)
 require("todo-comments").setup({highlight = {pattern = {".*<(KEYWORDS)\\s*:", ".*<(KEYWORDS)\\s*\\(\\w*\\)\\s*:"}, keyword = "bg"}, search = {pattern = "\\b(KEYWORDS)\\s*(\\(\\w*\\))?\\s*:"}, signs = false})
 return nil

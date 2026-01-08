@@ -11,7 +11,6 @@
     { 1 "<leader>t" :group "[T]erminal" }
 ])
 
-; (local builtin (require :telescope.builtin))
 (local builtin MiniPick.builtin)
 (local kset vim.keymap.set)
 

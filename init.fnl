@@ -17,7 +17,7 @@
 
 (set vo.mouse "a")
 
-(set vo.showmode true) ; maybe disable this at some point
+(set vo.showmode false)
 
 
 ; Fix clipboard flicker on terminals that support osc52 (ansi terminal paste controls)

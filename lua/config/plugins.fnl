@@ -51,13 +51,8 @@
 (add-plugin :which-key "https://github.com/folke/which-key.nvim")
 (add-plugin :mason "https://github.com/mason-org/mason.nvim")
 (add-plugin :lsp-config "https://github.com/neovim/nvim-lspconfig")
-
-; telescope
-(add-plugin :plenary "https://github.com/nvim-lua/plenary.nvim")
-(add-plugin :nvim-web-devicons "https://github.com/nvim-tree/nvim-web-devicons")
-(add-plugin :telescope "https://github.com/nvim-telescope/telescope.nvim")
-
 (add-plugin :mini "https://github.com/echasnovski/mini.nvim")
+(add-plugin :plenary "https://github.com/nvim-lua/plenary.nvim") ; for harpoon
 (add-plugin :harpoon "https://github.com/ThePrimeagen/harpoon" :harpoon2)
 (add-plugin :blink.cmp "https://github.com/saghen/blink.cmp" :v1.7.0)
 (add-plugin :conform "https://github.com/stevearc/conform.nvim")
@@ -142,7 +137,9 @@
                     ]
                 (when (and language ; (~= language :odin)
                            true)
-                  (when (not (attach args.buf language))
+                  (when (and
+                          (not (attach args.buf language))
+                          (: (vim.iter ((. (require :nvim-treesitter) :get_available))) :any (lambda [item] (= item language))))
                     (let
                       [installing ((. (require :nvim-treesitter.install) :install) language)]
                       (installing:await
@@ -157,22 +154,12 @@
 (which-key.setup {})
 (vim.keymap.set "n" "<leader>?" (lambda [] (which-key.show {:global false})))
 
-; Telescope
-(local telescope (require :telescope))
-(telescope.setup {
-                 :extensions {
-                   :ui-select [ ((. (require :telescope.themes) :get_dropdown)) ]
-                 }
-                 :defaults {
-                   :file_ignore_patterns {}
-                 }
-                 })
-
 ; Mason
 (local mason (require :mason))
 (mason.setup {})
 
 ; mini.pick
+((. (require :mini.icons) :setup))
 (local mini-pick (require :mini.pick))
 (mini-pick.setup)
 
@@ -181,7 +168,6 @@
 (harpoon:setup)
 
 ; mini
-((. (require :mini.pick) :setup))
 ((. (require :mini.extra) :setup))
 ((. (require :mini.files) :setup)
  {

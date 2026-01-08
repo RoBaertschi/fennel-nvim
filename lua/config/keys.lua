@@ -114,9 +114,9 @@ local function _21_()
     _22_ = tbl_21_
   end
   local function _24_(buf_id, items, query)
-    _G.assert((nil ~= query), "Missing argument query on /home/robin/.config/nvim/lua/config/keys.fnl:93")
-    _G.assert((nil ~= items), "Missing argument items on /home/robin/.config/nvim/lua/config/keys.fnl:93")
-    _G.assert((nil ~= buf_id), "Missing argument buf_id on /home/robin/.config/nvim/lua/config/keys.fnl:93")
+    _G.assert((nil ~= query), "Missing argument query on /home/robin/.config/nvim/lua/config/keys.fnl:92")
+    _G.assert((nil ~= items), "Missing argument items on /home/robin/.config/nvim/lua/config/keys.fnl:92")
+    _G.assert((nil ~= buf_id), "Missing argument buf_id on /home/robin/.config/nvim/lua/config/keys.fnl:92")
     return mini_pick.default_show(buf_id, items, query, {show_icons = true})
   end
   return MiniPick.start({source = {items = _22_, show = _24_, name = "Harpoon"}})
