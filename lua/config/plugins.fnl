@@ -154,6 +154,9 @@
 (local mason (require :mason))
 (mason.setup {})
 
+; mini icons
+((. (require :mini.icons) :setup))
+
 ; mini.pick
 ((. (require :mini.icons) :setup))
 (local mini-pick (require :mini.pick))

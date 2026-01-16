@@ -110,6 +110,13 @@
   {
   :capabilities ((. (require :blink.cmp) :get_lsp_capabilities) {} false)
   })
+
+(vim.lsp.config "ols" 
+                {
+                 :init_options {
+                  :enable_format false
+                 }
+                })
 (local lsps ["lua_ls" "rust_analyzer" "ts_ls" "fennel_ls" "angularls" "clangd" "ols"])
 
 (each [_ lsp (ipairs lsps)]
