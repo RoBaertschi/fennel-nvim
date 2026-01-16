@@ -122,10 +122,6 @@
                                false
                                (let []
                                  (vim.treesitter.start buf language)
-                                 (set vim.bo.indentexpr "v:lua.require('nvim-treesitter').indentexpr()")
-                                 (set vim.wo.foldtext "v:lua.require('nvim-treesitter').foldtext()")
-                                 (set vim.wo.foldmethod "expr")
-                                 (set vim.wo.foldexpr "v:lua.require('nvim-treesitter').foldexpr()")
                                  (set vim.wo.foldlevel 99)
                                  (set vim.opt.foldlevelstart -1)
                                  (set vim.opt.foldnestmax 99)

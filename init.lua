@@ -1,5 +1,6 @@
 local utils = require("config.utils")
 local vo = vim.opt
+local vv = vim.v
 local vg = vim.g
 local va = vim.api
 local sysname = vim.loop.os_uname().sysname
@@ -48,6 +49,15 @@ if vg.neovide then
   vg.neovide_cursor_animation_length = 0
 else
 end
+vim.o.foldmethod = "marker"
+vim.o.foldmarker = "#region,#endregion"
+local function custom_fold_text()
+  local line = vim.fn.getline(vim.v.foldstart)
+  local line_count = (vim.v.foldend - vim.v.foldstart)
+  return string.format(" > %d lines: %s", line_count, string.gsub(line, "//%s*#region%s*", ""))
+end
+_G.custom_fold_text = custom_fold_text
+vim.opt.foldtext = "v:lua.custom_fold_text()"
 local function schedule_notify(message, level_3f)
   local function _4_()
     return vim.notify(message, level_3f)

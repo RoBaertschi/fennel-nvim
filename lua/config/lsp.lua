@@ -69,8 +69,9 @@ local function _3_(ev)
   return nil
 end
 vim.api.nvim_create_autocmd("LspAttach", {group = vim.api.nvim_create_augroup("vimrc-lsp-attach", {clear = true}), callback = _3_})
+vim.lsp.config("ols", {init_options = {enable_format = false}})
 vim.lsp.config("*", {capabilities = require("blink.cmp").get_lsp_capabilities({}, false)})
-local lsps = {"lua_ls", "rust_analyzer", "ts_ls", "fennel_ls", "angularls", "clangd"}
+local lsps = {"lua_ls", "rust_analyzer", "ts_ls", "fennel_ls", "angularls", "clangd", "ols"}
 for _, lsp in ipairs(lsps) do
   vim.lsp.enable(lsp)
 end

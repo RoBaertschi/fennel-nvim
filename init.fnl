@@ -1,6 +1,7 @@
 (local utils (require :config.utils))
 
 (local vo (. vim :opt))
+(local vv vim.v)
 (local vg (. vim :g))
 (local va (. vim :api))
 (local sysname (. (vim.loop.os_uname) :sysname))
@@ -79,6 +80,19 @@
 (set vo.guifont "JetBrainsMono NF")
 
 (when (. vg :neovide) (set vg.neovide_cursor_animation_length 0))
+
+(set vim.o.foldmethod "foldmarker")
+(set vim.o.foldmarker "#region,#endregion")
+
+(fn custom-fold-text []
+  (let
+    [
+     line (vim.fn.getline vim.v.foldstart)
+     line_count (- vim.v.foldend vim.v.foldstart)
+     ] (string.format " > %d lines: %s" line_count (string.gsub line "//%s*#region%s*" ""))))
+(set _G.custom_fold_text custom-fold-text)
+
+(set vim.opt.foldtext "v:lua.custom_fold_text()")
 
 (fn schedule-notify [message level?]
   (vim.schedule (lambda []

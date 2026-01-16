@@ -121,10 +121,6 @@ local function _13_(args)
         return false
       else
         vim.treesitter.start(buf, language)
-        vim.bo.indentexpr = "v:lua.require('nvim-treesitter').indentexpr()"
-        vim.wo.foldtext = "v:lua.require('nvim-treesitter').foldtext()"
-        vim.wo.foldmethod = "expr"
-        vim.wo.foldexpr = "v:lua.require('nvim-treesitter').foldexpr()"
         vim.wo.foldlevel = 99
         vim.opt.foldlevelstart = -1
         vim.opt.foldnestmax = 99
@@ -137,7 +133,7 @@ local function _13_(args)
       local and_16_ = not attach(args.buf, language)
       if and_16_ then
         local function _17_(item)
-          _G.assert((nil ~= item), "Missing argument item on /home/robin/.config/nvim/lua/config/plugins.fnl:142")
+          _G.assert((nil ~= item), "Missing argument item on /home/robin/.config/nvim/lua/config/plugins.fnl:138")
           return (item == language)
         end
         and_16_ = vim.iter(require("nvim-treesitter").get_available()):any(_17_)
@@ -181,7 +177,7 @@ local function _22_()
 end
 statusline["section_location"] = _22_
 local function _23_(bufnr)
-  _G.assert((nil ~= bufnr), "Missing argument bufnr on /home/robin/.config/nvim/lua/config/plugins.fnl:189")
+  _G.assert((nil ~= bufnr), "Missing argument bufnr on /home/robin/.config/nvim/lua/config/plugins.fnl:185")
   local disable_filetype = {c = true, cpp = true}
   if disable_filetype[vim.bo[bufnr].filetype] then
     return nil
