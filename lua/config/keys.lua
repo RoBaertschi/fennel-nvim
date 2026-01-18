@@ -2,6 +2,7 @@ local utils = require("config.utils")
 require("which-key").add({{"<leader>s", group = "[S]earch"}, {"<leader>g", group = "[G]oto"}, {"<leader>c", group = "[C]onfig"}, {"<leader>d", group = "[D]ocument"}, {"<leader>w", group = "[W]orkspace"}, {"<leader>o", group = "[O]verseer"}, {"<leader>p", group = "[P]roject"}, {"<leader>t", group = "[T]erminal"}})
 local builtin = MiniPick.builtin
 local kset = vim.keymap.set
+kset("n", "<tab>", "za", {desc = "Toggle fold"})
 local function _1_()
   return vim.cmd("tab term")
 end
@@ -114,9 +115,9 @@ local function _21_()
     _22_ = tbl_21_
   end
   local function _24_(buf_id, items, query)
-    _G.assert((nil ~= query), "Missing argument query on /home/robin/.config/nvim/lua/config/keys.fnl:92")
-    _G.assert((nil ~= items), "Missing argument items on /home/robin/.config/nvim/lua/config/keys.fnl:92")
-    _G.assert((nil ~= buf_id), "Missing argument buf_id on /home/robin/.config/nvim/lua/config/keys.fnl:92")
+    _G.assert((nil ~= query), "Missing argument query on /home/robin/.config/nvim/lua/config/keys.fnl:95")
+    _G.assert((nil ~= items), "Missing argument items on /home/robin/.config/nvim/lua/config/keys.fnl:95")
+    _G.assert((nil ~= buf_id), "Missing argument buf_id on /home/robin/.config/nvim/lua/config/keys.fnl:95")
     return mini_pick.default_show(buf_id, items, query, {show_icons = true})
   end
   return MiniPick.start({source = {items = _22_, show = _24_, name = "Harpoon"}})
