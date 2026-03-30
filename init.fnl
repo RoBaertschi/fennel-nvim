@@ -81,7 +81,10 @@
 
 (when (. vg :neovide) (set vg.neovide_cursor_animation_length 0))
 
-(set vim.o.foldmethod "foldmarker")
+(set vim.o.cinoptions "l1,:0")
+(set vim.o.cindent true)
+
+(set vim.o.foldmethod "marker")
 (set vim.o.foldmarker "#region,#endregion")
 
 (fn custom-fold-text []

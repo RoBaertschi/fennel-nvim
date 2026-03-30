@@ -49,6 +49,8 @@ if vg.neovide then
   vg.neovide_cursor_animation_length = 0
 else
 end
+vim.o.cinoptions = "l1,:0"
+vim.o.cindent = true
 vim.o.foldmethod = "marker"
 vim.o.foldmarker = "#region,#endregion"
 local function custom_fold_text()

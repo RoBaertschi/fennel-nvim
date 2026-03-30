@@ -122,6 +122,7 @@ local function _13_(args)
       else
         vim.treesitter.start(buf, language)
         vim.wo.foldlevel = 99
+        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
         vim.opt.foldlevelstart = -1
         vim.opt.foldnestmax = 99
         return true
@@ -129,7 +130,7 @@ local function _13_(args)
     end
     attach = _14_
     local language = vim.treesitter.language.get_lang(args.match)
-    if (language and true) then
+    if (language and (language ~= "odin")) then
       local and_16_ = not attach(args.buf, language)
       if and_16_ then
         local function _17_(item)

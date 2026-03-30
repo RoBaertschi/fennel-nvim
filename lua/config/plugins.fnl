@@ -123,6 +123,7 @@
                                (let []
                                  (vim.treesitter.start buf language)
                                  (set vim.wo.foldlevel 99)
+                                 (set vim.bo.indentexpr "v:lua.require'nvim-treesitter'.indentexpr()")
                                  (set vim.opt.foldlevelstart -1)
                                  (set vim.opt.foldnestmax 99)
                                  true
@@ -131,8 +132,7 @@
                     language (vim.treesitter.language.get_lang args.match)
 
                     ]
-                (when (and language ; (~= language :odin)
-                           true)
+                (when (and language (~= language :odin))
                   (when (and
                           (not (attach args.buf language))
                           (: (vim.iter ((. (require :nvim-treesitter) :get_available))) :any (lambda [item] (= item language))))
