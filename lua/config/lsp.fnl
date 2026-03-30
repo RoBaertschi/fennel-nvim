@@ -117,7 +117,7 @@
                   :enable_format false
                  }
                 })
-(local lsps ["lua_ls" "rust_analyzer" "ts_ls" "fennel_ls" "angularls" "clangd" "zls"])
+(local lsps ["lua_ls" "rust_analyzer" "ts_ls" "fennel_ls" "angularls" "clangd" "zls" "ols"])
 
 (each [_ lsp (ipairs lsps)]
   (vim.lsp.enable lsp))
