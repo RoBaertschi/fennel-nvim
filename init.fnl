@@ -119,6 +119,30 @@
    }
   })
 
+; Build task
+(vim.api.nvim_create_user_command "Build"
+                                  (lambda []
+                                    (vim.cmd "split")
+                                    (let [buf (vim.api.nvim_create_buf false true)]
+                                      (vim.api.nvim_win_set_buf 0 buf)
+                                      (vim.cmd "norm G")
+                                      (vim.fn.jobstart
+                                        "./build.sh"
+                                        {
+                                         :term true
+                                         :on_exit (lambda [job_id code]
+                                                    (when (= code 0)
+                                                      (when (vim.api.nvim_buf_is_valid buf)
+                                                        (vim.api.nvim_buf_delete buf {}))))
+                                        })
+                                      (vim.keymap.set
+                                        "n"
+                                        "q"
+                                        (lambda [] (when (vim.api.nvim_buf_is_valid buf)
+                                                     (vim.api.nvim_buf_delete buf {})))
+                                        { :buffer buf :silent true })))
+                                  {})
+
 ; Setup autocmd
 
 (local group (va.nvim_create_augroup "vimrc" { :clear true }))
