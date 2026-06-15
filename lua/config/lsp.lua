@@ -52,26 +52,18 @@ local function _3_(ev)
       map("<leader>th", _7_, "[T]oggle Inlay [H]ints")
     else
     end
-    if (client and (not client_supports_method(client, "textDocument/willSaveWaitUntil") and client_supports_method(client, "textDocument/formatting"))) then
-      local function _9_(ev0)
-        _G.assert((nil ~= ev0), "Missing argument ev on /home/robin/.config/nvim/lua/config/lsp.fnl:68")
-        return vim.lsp.buf.format({bufnr = ev0.buf, id = client.id, timeout_ms = 1000})
-      end
-      vim.api.nvim_create_autocmd("BufWritePre", {buffer = ev.buf, callback = _9_})
-    else
-    end
-    local function _11_(diagnostic)
+    local function _9_(diagnostic)
       _G.assert((nil ~= diagnostic), "Missing argument diagnostic on /home/robin/.config/nvim/lua/config/lsp.fnl:89")
       return ({[vim.diagnostic.severity.ERROR] = diagnostic.message, [vim.diagnostic.severity.WARN] = diagnostic.message, [vim.diagnostic.severity.INFO] = diagnostic.message, [vim.diagnostic.severity.HINT] = diagnostic.message})[diagnostic.severity]
     end
-    vim.diagnostic.config({severity_sort = true, float = {border = "rounded", source = "if_many"}, underline = {severity = vim.diagnostic.severity.ERROR}, signs = ((vim.g.have_nerd_font and {text = {[vim.diagnostic.severity.ERROR] = "\243\176\133\154 ", [vim.diagnostic.severity.WARN] = "\243\176\128\170 ", [vim.diagnostic.severity.INFO] = "\243\176\139\189 ", [vim.diagnostic.severity.HINT] = "\243\176\140\182 "}}) or {}), virtual_text = {source = "if_many", spacing = 2, format = _11_}})
+    vim.diagnostic.config({severity_sort = true, float = {border = "rounded", source = "if_many"}, underline = {severity = vim.diagnostic.severity.ERROR}, signs = ((vim.g.have_nerd_font and {text = {[vim.diagnostic.severity.ERROR] = "\243\176\133\154 ", [vim.diagnostic.severity.WARN] = "\243\176\128\170 ", [vim.diagnostic.severity.INFO] = "\243\176\139\189 ", [vim.diagnostic.severity.HINT] = "\243\176\140\182 "}}) or {}), virtual_text = {source = "if_many", spacing = 2, format = _9_}})
   end
   return nil
 end
 vim.api.nvim_create_autocmd("LspAttach", {group = vim.api.nvim_create_augroup("vimrc-lsp-attach", {clear = true}), callback = _3_})
 vim.lsp.config("*", {capabilities = require("blink.cmp").get_lsp_capabilities({}, false)})
 vim.lsp.config("ols", {init_options = {enable_format = false}})
-local lsps = {"lua_ls", "rust_analyzer", "ts_ls", "fennel_ls", "angularls", "clangd", "zls", "ols"}
+local lsps = {"lua_ls", "rust_analyzer", "ts_ls", "fennel_ls", "clangd", "zls", "ols", "gopls", "eslint"}
 for _, lsp in ipairs(lsps) do
   vim.lsp.enable(lsp)
 end

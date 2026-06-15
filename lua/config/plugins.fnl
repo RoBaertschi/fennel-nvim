@@ -77,6 +77,11 @@
             :url "https://github.com/RoBaertschi/tree-sitter-odin"
             :branch "master"
           })
+    (tset (. (require :nvim-treesitter.parsers) :go)
+          :install_info {
+           :url "https://github.com/nvlbg/tree-sitter-go"
+           :revision "5a6af13a0a5b45bc76cac289c783b315b2b74e13"
+          })
     (tset (require :nvim-treesitter.parsers)
           :sjson {
            :install_info {
@@ -188,7 +193,13 @@
                                 (lambda [bufnr]
                                   (let [disable_filetype { :c true :cpp true }]
                                     (if (. disable_filetype (. (. vim.bo bufnr) :filetype)) nil {:timeout_ms 500 :lsp_format :fallback})))
-                                :formatters_by_ft { :lua [ :stylua ] }})
+                                :formatters_by_ft
+                                {
+                                 :lua { 1 :stylua }
+                                 :javascript { 1 "prettier" }
+                                 :typescript { 1 "prettier" }
+                                 :typescriptreact { 1 "prettier" }
+                                }})
 
 (vim.keymap.set :n "<leader>f" (lambda [] ((. (require :conform) :format) { :async true :lsp_format :fallback })))
 

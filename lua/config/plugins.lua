@@ -84,6 +84,7 @@ local group = vim.api.nvim_create_augroup("vimrc-treesitter", {clear = true})
 local function _10_(args)
   _G.assert((nil ~= args), "Missing argument args on /home/robin/.config/nvim/lua/config/plugins.fnl:74")
   require("nvim-treesitter.parsers").odin["install_info"] = {url = "https://github.com/RoBaertschi/tree-sitter-odin", branch = "master"}
+  require("nvim-treesitter.parsers").go["install_info"] = {url = "https://github.com/nvlbg/tree-sitter-go", revision = "5a6af13a0a5b45bc76cac289c783b315b2b74e13"}
   require("nvim-treesitter.parsers")["sjson"] = {install_info = {url = "https://github.com/RoBaertschi/tree-sitter-sjson", revision = "c9b7e606de8ec376a4641e7db1ca5722d5afff2d"}, maintainers = {"@RoBaertschi"}, tier = 2}
   return nil
 end
@@ -111,12 +112,12 @@ do
   nvim_treesitter.install(install)
 end
 local function _13_(args)
-  _G.assert((nil ~= args), "Missing argument args on /home/robin/.config/nvim/lua/config/plugins.fnl:116")
+  _G.assert((nil ~= args), "Missing argument args on /home/robin/.config/nvim/lua/config/plugins.fnl:121")
   do
     local attach
     local function _14_(buf, language)
-      _G.assert((nil ~= language), "Missing argument language on /home/robin/.config/nvim/lua/config/plugins.fnl:119")
-      _G.assert((nil ~= buf), "Missing argument buf on /home/robin/.config/nvim/lua/config/plugins.fnl:119")
+      _G.assert((nil ~= language), "Missing argument language on /home/robin/.config/nvim/lua/config/plugins.fnl:124")
+      _G.assert((nil ~= buf), "Missing argument buf on /home/robin/.config/nvim/lua/config/plugins.fnl:124")
       if not vim.treesitter.language.add(language) then
         return false
       else
@@ -134,7 +135,7 @@ local function _13_(args)
       local and_16_ = not attach(args.buf, language)
       if and_16_ then
         local function _17_(item)
-          _G.assert((nil ~= item), "Missing argument item on /home/robin/.config/nvim/lua/config/plugins.fnl:138")
+          _G.assert((nil ~= item), "Missing argument item on /home/robin/.config/nvim/lua/config/plugins.fnl:143")
           return (item == language)
         end
         and_16_ = vim.iter(require("nvim-treesitter").get_available()):any(_17_)
@@ -179,7 +180,7 @@ local function _22_()
 end
 statusline["section_location"] = _22_
 local function _23_(bufnr)
-  _G.assert((nil ~= bufnr), "Missing argument bufnr on /home/robin/.config/nvim/lua/config/plugins.fnl:188")
+  _G.assert((nil ~= bufnr), "Missing argument bufnr on /home/robin/.config/nvim/lua/config/plugins.fnl:193")
   local disable_filetype = {c = true, cpp = true}
   if disable_filetype[vim.bo[bufnr].filetype] then
     return nil
@@ -187,7 +188,7 @@ local function _23_(bufnr)
     return {timeout_ms = 500, lsp_format = "fallback"}
   end
 end
-require("conform").setup({format_on_save = _23_, formatters_by_ft = {lua = {"stylua"}}, notify_on_error = false})
+require("conform").setup({format_on_save = _23_, formatters_by_ft = {lua = {"stylua"}, javascript = {"prettier"}, typescript = {"prettier"}, typescriptreact = {"prettier"}}, notify_on_error = false})
 local function _25_()
   return require("conform").format({async = true, lsp_format = "fallback"})
 end

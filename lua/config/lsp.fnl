@@ -57,17 +57,17 @@
                (vim.lsp.inlay_hint.enable (not (vim.lsp.inlay_hint.is_enabled { :bufnr ev.buf }))))
              "[T]oggle Inlay [H]ints"
              ))
-         (when (and client (and
-                 (not (client-supports-method client "textDocument/willSaveWaitUntil"))
-                 (client-supports-method client "textDocument/formatting")))
-           (vim.api.nvim_create_autocmd
-             "BufWritePre"
-             {
-             :buffer ev.buf
-             :callback
-             (lambda [ev]
-               (vim.lsp.buf.format { :bufnr ev.buf :id client.id :timeout_ms 1000 }))
-             }))
+         ; (when (and client (and
+         ;         (not (client-supports-method client "textDocument/willSaveWaitUntil"))
+         ;         (client-supports-method client "textDocument/formatting")))
+         ;   (vim.api.nvim_create_autocmd
+         ;     "BufWritePre"
+         ;     {
+         ;     :buffer ev.buf
+         ;     :callback
+         ;     (lambda [ev]
+         ;       (vim.lsp.buf.format { :bufnr ev.buf :id client.id :timeout_ms 1000 }))
+         ;     }))
          (vim.diagnostic.config
            {
            :severity_sort true
@@ -117,7 +117,7 @@
                   :enable_format false
                  }
                 })
-(local lsps ["lua_ls" "rust_analyzer" "ts_ls" "fennel_ls" "angularls" "clangd" "zls" "ols"])
+(local lsps ["lua_ls" "rust_analyzer" "ts_ls" "fennel_ls" "clangd" "zls" "ols" "gopls" "eslint"])
 
 (each [_ lsp (ipairs lsps)]
   (vim.lsp.enable lsp))
