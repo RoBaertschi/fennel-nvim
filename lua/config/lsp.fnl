@@ -116,8 +116,14 @@
                  :init_options {
                   :enable_format false
                  }
+                 :cmd_env {
+                  :OLS_BUILTIN_FOLDER "/usr/share/ols/builtin"
+                 }
                 })
-(local lsps ["lua_ls" "rust_analyzer" "ts_ls" "fennel_ls" "clangd" "zls" "ols" "gopls" "eslint"])
+
+(vim.filetype.add { :extension { :templ "templ" } })
+
+(local lsps ["lua_ls" "rust_analyzer" "ts_ls" "fennel_ls" "clangd" "zls" "ols" "gopls" "eslint" "templ"])
 
 (each [_ lsp (ipairs lsps)]
   (vim.lsp.enable lsp))

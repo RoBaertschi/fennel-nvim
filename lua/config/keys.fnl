@@ -15,7 +15,7 @@
 (local kset vim.keymap.set)
 
 ; folds
-(kset "n" "<tab>" "za" { :desc "Toggle fold" })
+; (kset "n" "<tab>" "za" { :desc "Toggle fold" })
 
 ; terminal
 (kset "n" "<leader>tt" (lambda [] (vim.cmd "tab term")) { :desc "Open new [T]erminal in [T]ab" })

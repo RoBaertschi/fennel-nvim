@@ -62,8 +62,9 @@ local function _3_(ev)
 end
 vim.api.nvim_create_autocmd("LspAttach", {group = vim.api.nvim_create_augroup("vimrc-lsp-attach", {clear = true}), callback = _3_})
 vim.lsp.config("*", {capabilities = require("blink.cmp").get_lsp_capabilities({}, false)})
-vim.lsp.config("ols", {init_options = {enable_format = false}})
-local lsps = {"lua_ls", "rust_analyzer", "ts_ls", "fennel_ls", "clangd", "zls", "ols", "gopls", "eslint"}
+vim.lsp.config("ols", {init_options = {enable_format = false}, cmd_env = {OLS_BUILTIN_FOLDER = "/usr/share/ols/builtin"}})
+vim.filetype.add({extension = {templ = "templ"}})
+local lsps = {"lua_ls", "rust_analyzer", "ts_ls", "fennel_ls", "clangd", "zls", "ols", "gopls", "eslint", "templ"}
 for _, lsp in ipairs(lsps) do
   vim.lsp.enable(lsp)
 end

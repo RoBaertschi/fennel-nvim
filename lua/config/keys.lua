@@ -2,7 +2,6 @@ local utils = require("config.utils")
 require("which-key").add({{"<leader>s", group = "[S]earch"}, {"<leader>g", group = "[G]oto"}, {"<leader>c", group = "[C]onfig"}, {"<leader>d", group = "[D]ocument"}, {"<leader>w", group = "[W]orkspace"}, {"<leader>o", group = "[O]verseer"}, {"<leader>p", group = "[P]roject"}, {"<leader>t", group = "[T]erminal"}})
 local builtin = MiniPick.builtin
 local kset = vim.keymap.set
-kset("n", "<tab>", "za", {desc = "Toggle fold"})
 local function _1_()
   return vim.cmd("tab term")
 end

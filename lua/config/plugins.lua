@@ -123,7 +123,10 @@ local function _13_(args)
       else
         vim.treesitter.start(buf, language)
         vim.wo.foldlevel = 99
-        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        if (language ~= "c") then
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        else
+        end
         vim.opt.foldlevelstart = -1
         vim.opt.foldnestmax = 99
         return true
@@ -132,20 +135,20 @@ local function _13_(args)
     attach = _14_
     local language = vim.treesitter.language.get_lang(args.match)
     if (language and (language ~= "odin")) then
-      local and_16_ = not attach(args.buf, language)
-      if and_16_ then
-        local function _17_(item)
-          _G.assert((nil ~= item), "Missing argument item on /home/robin/.config/nvim/lua/config/plugins.fnl:143")
+      local and_17_ = not attach(args.buf, language)
+      if and_17_ then
+        local function _18_(item)
+          _G.assert((nil ~= item), "Missing argument item on /home/robin/.config/nvim/lua/config/plugins.fnl:144")
           return (item == language)
         end
-        and_16_ = vim.iter(require("nvim-treesitter").get_available()):any(_17_)
+        and_17_ = vim.iter(require("nvim-treesitter").get_available()):any(_18_)
       end
-      if and_16_ then
+      if and_17_ then
         local installing = require("nvim-treesitter.install").install(language)
-        local function _18_()
+        local function _19_()
           return attach(args.buf, language)
         end
-        installing:await(_18_)
+        installing:await(_19_)
       else
       end
     else
@@ -156,10 +159,10 @@ end
 vim.api.nvim_create_autocmd("FileType", {group = group, callback = _13_})
 local which_key = require("which-key")
 which_key.setup({})
-local function _21_()
+local function _22_()
   return which_key.show({global = false})
 end
-vim.keymap.set("n", "<leader>?", _21_)
+vim.keymap.set("n", "<leader>?", _22_)
 local mason = require("mason")
 mason.setup({})
 require("mini.icons").setup()
@@ -175,12 +178,12 @@ require("mini.ai").setup({n_lines = 500})
 require("mini.surround").setup({})
 local statusline = require("mini.statusline")
 statusline.setup({use_icons = true})
-local function _22_()
+local function _23_()
   return "%2l:%-2v"
 end
-statusline["section_location"] = _22_
-local function _23_(bufnr)
-  _G.assert((nil ~= bufnr), "Missing argument bufnr on /home/robin/.config/nvim/lua/config/plugins.fnl:193")
+statusline["section_location"] = _23_
+local function _24_(bufnr)
+  _G.assert((nil ~= bufnr), "Missing argument bufnr on /home/robin/.config/nvim/lua/config/plugins.fnl:194")
   local disable_filetype = {c = true, cpp = true}
   if disable_filetype[vim.bo[bufnr].filetype] then
     return nil
@@ -188,10 +191,10 @@ local function _23_(bufnr)
     return {timeout_ms = 500, lsp_format = "fallback"}
   end
 end
-require("conform").setup({format_on_save = _23_, formatters_by_ft = {lua = {"stylua"}, javascript = {"prettier"}, typescript = {"prettier"}, typescriptreact = {"prettier"}}, notify_on_error = false})
-local function _25_()
+require("conform").setup({format_on_save = _24_, formatters_by_ft = {lua = {"stylua"}, javascript = {"prettier"}, typescript = {"prettier"}, typescriptreact = {"prettier"}}, notify_on_error = false})
+local function _26_()
   return require("conform").format({async = true, lsp_format = "fallback"})
 end
-vim.keymap.set("n", "<leader>f", _25_)
+vim.keymap.set("n", "<leader>f", _26_)
 require("todo-comments").setup({highlight = {pattern = {".*<(KEYWORDS)\\s*:", ".*<(KEYWORDS)\\s*\\(\\w*\\)\\s*:"}, keyword = "bg"}, search = {pattern = "\\b(KEYWORDS)\\s*(\\(\\w*\\))?\\s*:"}, signs = false})
 return nil
