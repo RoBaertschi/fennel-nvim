@@ -67,7 +67,7 @@ local function add_plugin(name, src, branch_3f)
   end
 end
 add_plugin("tokyonight", "https://github.com/folke/tokyonight.nvim.git")
-add_plugin("nvim-treesitter", "https://github.com/nvim-treesitter/nvim-treesitter", "main")
+add_plugin("nvim-treesitter", "https://github.com/RoBaertschi/nvim-treesitter", "main")
 add_plugin("which-key", "https://github.com/folke/which-key.nvim")
 add_plugin("mason", "https://github.com/mason-org/mason.nvim")
 add_plugin("lsp-config", "https://github.com/neovim/nvim-lspconfig")

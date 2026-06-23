@@ -47,7 +47,7 @@
 
 
 (add-plugin :tokyonight "https://github.com/folke/tokyonight.nvim.git")
-(add-plugin :nvim-treesitter "https://github.com/nvim-treesitter/nvim-treesitter" :main)
+(add-plugin :nvim-treesitter "https://github.com/RoBaertschi/nvim-treesitter" :main)
 (add-plugin :which-key "https://github.com/folke/which-key.nvim")
 (add-plugin :mason "https://github.com/mason-org/mason.nvim")
 (add-plugin :lsp-config "https://github.com/neovim/nvim-lspconfig")
