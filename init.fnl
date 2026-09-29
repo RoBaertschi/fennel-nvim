@@ -22,7 +22,7 @@
 
 
 ; Fix clipboard flicker on terminals that support osc52 (ansi terminal paste controls)
-(if (~= (vim.fn.has :linux) 0) (set vg.clipboard "wl-copy"))
+; (if (~= (vim.fn.has :linux) 0) (set vg.clipboard "wl-copy"))
 
 (vim.schedule (lambda [] (set vo.clipboard "unnamedplus")))
 

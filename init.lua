@@ -13,15 +13,11 @@ vo.number = true
 vo.relativenumber = true
 vo.mouse = "a"
 vo.showmode = false
-if (vim.fn.has("linux") ~= 0) then
-  vg.clipboard = "wl-copy"
-else
-end
-local function _2_()
+local function _1_()
   vo.clipboard = "unnamedplus"
   return nil
 end
-vim.schedule(_2_)
+vim.schedule(_1_)
 vo.breakindent = true
 vo.undofile = true
 vo.ignorecase = true
@@ -61,26 +57,26 @@ end
 _G.custom_fold_text = custom_fold_text
 vim.opt.foldtext = "v:lua.custom_fold_text()"
 local function schedule_notify(message, level_3f)
-  local function _4_()
+  local function _3_()
     return vim.notify(message, level_3f)
   end
-  return vim.schedule(_4_)
+  return vim.schedule(_3_)
 end
 local gr = vim.api.nvim_create_augroup("vimrc-default-group", {})
-local function _5_()
+local function _4_()
   vim.cmd("setlocal formatoptions-=c formatoptions-=o")
   return nil
 end
-vim.api.nvim_create_autocmd("FileType", {group = gr, pattern = nil, callback = _5_, desc = "Proper 'formatoptions'"})
+vim.api.nvim_create_autocmd("FileType", {group = gr, pattern = nil, callback = _4_, desc = "Proper 'formatoptions'"})
 vim.filetype.add({extension = {sjson = "sjson"}})
-local function _6_()
+local function _5_()
   vim.cmd("split")
   local buf = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_win_set_buf(0, buf)
   vim.cmd("norm G")
-  local function _7_(job_id, code)
-    _G.assert((nil ~= code), "Missing argument code on /home/robin/.config/nvim/init.fnl:133")
-    _G.assert((nil ~= job_id), "Missing argument job_id on /home/robin/.config/nvim/init.fnl:133")
+  local function _6_(job_id, code)
+    _G.assert((nil ~= code), "Missing argument code on /home/dev/.config/nvim/init.fnl:133")
+    _G.assert((nil ~= job_id), "Missing argument job_id on /home/dev/.config/nvim/init.fnl:133")
     if (code == 0) then
       if vim.api.nvim_buf_is_valid(buf) then
         return vim.api.nvim_buf_delete(buf, {})
@@ -91,38 +87,38 @@ local function _6_()
       return nil
     end
   end
-  vim.fn.jobstart("./build.sh", {term = true, on_exit = _7_})
-  local function _10_()
+  vim.fn.jobstart("./build.sh", {term = true, on_exit = _6_})
+  local function _9_()
     if vim.api.nvim_buf_is_valid(buf) then
       return vim.api.nvim_buf_delete(buf, {})
     else
       return nil
     end
   end
-  return vim.keymap.set("n", "q", _10_, {buffer = buf, silent = true})
+  return vim.keymap.set("n", "q", _9_, {buffer = buf, silent = true})
 end
-vim.api.nvim_create_user_command("Build", _6_, {})
+vim.api.nvim_create_user_command("Build", _5_, {})
 local group = va.nvim_create_augroup("vimrc", {clear = true})
 local function fnl_buf_write_post(ev)
   local file_name = tostring(va.nvim_buf_get_name(ev.buf))
-  local _12_
+  local _11_
   if windows then
-    _12_ = (config_path .. "\\bin\\fennel.exe")
+    _11_ = (config_path .. "\\bin\\fennel.exe")
   else
-    _12_ = (config_path .. "/bin/fennel")
+    _11_ = (config_path .. "/bin/fennel")
   end
   local function fennel_compile_on_exit_command(completed)
     if completed then
       if (completed.code == 0) then
         local new_file = utils["change-extension"](file_name, "lua")
-        local _14_, _15_ = io.open(new_file, "w+")
-        if (nil ~= _14_) then
-          local file = _14_
+        local _13_, _14_ = io.open(new_file, "w+")
+        if (nil ~= _13_) then
+          local file = _13_
           file:write(completed.stdout)
           file:close()
           schedule_notify(((("Compiled " .. file_name) .. " to ") .. new_file))
-        elseif ((_14_ == nil) and (nil ~= _15_)) then
-          local err_msg = _15_
+        elseif ((_13_ == nil) and (nil ~= _14_)) then
+          local err_msg = _14_
           schedule_notify(((("Could not open file " .. new_file) .. ": ") .. err_msg))
         else
         end
@@ -133,7 +129,7 @@ local function fnl_buf_write_post(ev)
     end
     return nil
   end
-  vim.system({_12_, "--compile", file_name}, {text = true}, fennel_compile_on_exit_command)
+  vim.system({_11_, "--compile", file_name}, {text = true}, fennel_compile_on_exit_command)
   return nil
 end
 va.nvim_create_autocmd({"BufWritePost"}, {group = group, pattern = {"*.fnl"}, callback = fnl_buf_write_post})
